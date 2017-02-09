@@ -26,6 +26,7 @@ void MainWindow::init_windowParams()
 
     this->show();
     cmw->model = this;
+
     /** Параметры главного окна */
     this->setWindowTitle("Контроль времени.  v 1.00.000");
 
@@ -34,7 +35,7 @@ void MainWindow::init_windowParams()
 
     int fullWidth, nameWidth;
     fullWidth = ui->tableWidget->width();
-    nameWidth = fullWidth - 144 - 160-18;
+    nameWidth = fullWidth - 144 - 160 - 18;
 
     /** Ширина столбцов */
     ui->tableWidget->setColumnWidth(0,nameWidth);
@@ -137,11 +138,9 @@ void MainWindow::init_windowParams()
     ui->calendarWidget->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader);
 
     setClearCalendar();
-
-    //cmw->init_window(0);
-
 }
 
+/* Изменение размеров полей таблицы при изменении размеров окна */
 void MainWindow::resizeEvent(QResizeEvent* event)
 {
     qDebug() << "Функция resizeEvent запустилась (модель)";
@@ -395,6 +394,7 @@ void MainWindow::on_tabWidget_tabBarClicked(int index)
     if (ui->tabWidget->tabText(index) != "Выберите папку проекта двойным щелчком ..."/* && ui->tabWidget->currentIndex() != index
             && currentTab != index*/)
     {
+        /** Останавливаем счётчик времени текущего проекта */
         cmw->stopTaskTimer();
         currentTab  = index;
         QString dir = cmw->projList[index].toString();
