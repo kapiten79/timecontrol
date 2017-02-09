@@ -78,3 +78,6 @@ FORMS    += mainwindow.ui \
     dialog_find.ui \
     dialog_timereport.ui \
     dialog_reporttask.ui
+
+RESOURCES += \
+    qrc.qrc

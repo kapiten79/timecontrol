@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/ico">
+        <file>png_ico/delete.png</file>
+        <file>png_ico/find.png</file>
+        <file>png_ico/history_call.PNG</file>
+        <file>png_ico/new_call.png</file>
+        <file>png_ico/new_proj.png</file>
+        <file>png_ico/new_task.png</file>
+        <file>png_ico/perenos.png</file>
+        <file>png_ico/play.png</file>
+        <file>png_ico/save_all.png</file>
+        <file>png_ico/settings_proj.png</file>
+        <file>png_ico/stop.png</file>
+    </qresource>
+</RCC>

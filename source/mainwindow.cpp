@@ -44,7 +44,7 @@ void MainWindow::init_windowParams()
 
 
     /** Добавление иконки создания проекта */
-    const QIcon newProjIcon = QIcon::fromTheme("project-new", QIcon(QDir::currentPath()+"/png_ico/new_proj.png"))   ;
+    const QIcon newProjIcon = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/new_proj.png"))   ;
     QAction     *newProjAct = new QAction(newProjIcon, tr("&Создание нового проекта..."), this)                     ;
     newProjAct->setShortcuts(QKeySequence::Open)                                                                    ;
     newProjAct->setStatusTip(tr("Создание нового проекта"))                                                         ;
@@ -54,7 +54,7 @@ void MainWindow::init_windowParams()
     ui->mainToolBar->addAction(newProjAct);
 
     /** Добавление иконки немедленного сохранения информации */
-    const QIcon saveIcon    = QIcon::fromTheme("project-new", QIcon(QDir::currentPath()+"/png_ico/save_all.png"))   ;
+    const QIcon saveIcon    = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/save_all.png"))   ;
     QAction *saveAct        = new QAction(saveIcon, tr("&Сохранить все данные..."), this)                           ;
     saveAct->setShortcuts(QKeySequence::Open); //гоячая клавиша
     saveAct->setStatusTip(tr("Сохранить всё"));
@@ -65,7 +65,7 @@ void MainWindow::init_windowParams()
 
     /** Добавление иконки открытия настроек проекта */
 
-    const QIcon settingsProjIcon = QIcon::fromTheme("project-new", QIcon(QDir::currentPath()+"/png_ico/settings_proj.png"));
+    const QIcon settingsProjIcon = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/settings_proj.png"));
     QAction *settingsProjAct = new QAction(settingsProjIcon, tr("&Редактирование параметров проекта..."), this);
     settingsProjAct->setShortcuts(QKeySequence::Open);
     settingsProjAct->setStatusTip(tr("Редактирование параметров проекта"));
@@ -77,7 +77,7 @@ void MainWindow::init_windowParams()
     ui->mainToolBar->addSeparator();
 
     /** Добавление иконки нового звонка */
-    const QIcon newCallIcon = QIcon::fromTheme("project-new", QIcon(QDir::currentPath()+"/png_ico/new_call.png"));
+    const QIcon newCallIcon = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/new_call.png"));
     QAction *newCallAct = new QAction(newCallIcon, tr("&Регистрация нового звонка..."), this);
     newCallAct->setShortcuts(QKeySequence::Open);
     newCallAct->setStatusTip(tr("Регистрация нового звонка"));
@@ -87,7 +87,7 @@ void MainWindow::init_windowParams()
     ui->mainToolBar->addAction(newCallAct);
 
     /** Добавление иконки истории звонков */
-    const QIcon historyCallIcon = QIcon::fromTheme("project-new", QIcon(QDir::currentPath()+"/png_ico/history_call.png"));
+    const QIcon historyCallIcon = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/history_call.PNG"));
     QAction *historyCallAct = new QAction(historyCallIcon, tr("&История звонков..."), this);
     historyCallAct->setShortcuts(QKeySequence::Open);
     historyCallAct->setStatusTip(tr("История звонков"));
@@ -99,7 +99,7 @@ void MainWindow::init_windowParams()
     ui->mainToolBar->addSeparator();
 
     /** Добавление иконки поиска */
-    const QIcon findIcon = QIcon::fromTheme("project-new", QIcon(QDir::currentPath()+"/png_ico/find.png"));
+    const QIcon findIcon = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/find.png"));
     QAction *findAct = new QAction(findIcon, tr("&Глобавльный поиск..."), this);
     findAct->setShortcuts(QKeySequence::Open);
     findAct->setStatusTip(tr("Глобавльный поиск"));
@@ -111,7 +111,7 @@ void MainWindow::init_windowParams()
     ui->mainToolBar->addSeparator();
 
     /** Добавление иконки переноса задачи на другую дату */
-    const QIcon perenosIcon = QIcon::fromTheme("project-new", QIcon(QDir::currentPath()+"/png_ico/perenos.png"));
+    const QIcon perenosIcon = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/perenos.png"));
     QAction *perenosAct = new QAction(perenosIcon, tr("&Перенести задачу на другую дату..."), this);
     perenosAct->setShortcuts(QKeySequence::Open);
     perenosAct->setStatusTip(tr("Перенос задачи"));
@@ -121,16 +121,16 @@ void MainWindow::init_windowParams()
     ui->mainToolBar->addAction(perenosAct);
 
     /** Описание иконок кнопок задач */
-    const QIcon newTaskIcon = QIcon::fromTheme("project-new", QIcon(QDir::currentPath()+"/png_ico/new_task.png"));
+    const QIcon newTaskIcon = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/new_task.png"));
     ui->pushButton->setIcon(newTaskIcon);
 
-    const QIcon playTaskIcon = QIcon::fromTheme("project-new", QIcon(QDir::currentPath()+"/png_ico/play.png"));
+    const QIcon playTaskIcon = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/play.png"));
     ui->pushButton_2->setIcon(playTaskIcon);
 
-    const QIcon stopTaskIcon = QIcon::fromTheme("project-new", QIcon(QDir::currentPath()+"/png_ico/stop.png"));
+    const QIcon stopTaskIcon = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/png_ico/stop.png"));
     ui->pushButton_3->setIcon(stopTaskIcon);
 
-    const QIcon deleteTaskIcon = QIcon::fromTheme("project-new", QIcon(QDir::currentPath()+"/png_ico/delete.png"));
+    const QIcon deleteTaskIcon = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/png_ico/delete.png"));
     ui->pushButton_4->setIcon(deleteTaskIcon);
 
     /** Стиль календаря */
@@ -365,18 +365,6 @@ void MainWindow::on_calendarWidget_clicked(const QDate &date)
     cmw ->calendarDate = date;
     ui  ->plainTextEdit->clear();
     cmw ->setDay(1);
-//    /** Если в данный момент не переносится задача, то выбираем новую дату и выводим список задач */
-//    if (ui->menuBar->isEnabled() == true)
-//    {
-//        cmw->setDay();
-//    }
-//    else
-//    {
-//        /** Если в данный момент на новую дату переносится задача, нужно вывести вопрос,
-//         * действиетльно ли человек хочет перенести задачу именно на эту дату. Если да,
-//            то добавить копию задачи в эту дату и вывести обновлённый список для этой даты */
-//        cmw->open_confirmDialog("Вы действительно хотите перенести задачу на "+ date.toString("dd/MM/yyyy")+" ?");
-//    }
 }
 
 void MainWindow::on_projectSettings_triggered()
@@ -389,10 +377,8 @@ void MainWindow::on_projectSettings_triggered()
 void MainWindow::on_tabWidget_tabBarClicked(int index)
 {
     qDebug() << "Функция on_tabWidget_tabBarClicked запустилась (модель) " << index;
-
-
-    if (ui->tabWidget->tabText(index) != "Выберите папку проекта двойным щелчком ..."/* && ui->tabWidget->currentIndex() != index
-            && currentTab != index*/)
+    /** Если это не закладка откртыия проекта */
+    if (ui->tabWidget->tabText(index) != "Выберите папку проекта двойным щелчком ...")
     {
         /** Останавливаем счётчик времени текущего проекта */
         cmw->stopTaskTimer();
@@ -430,6 +416,7 @@ void MainWindow::on_tabWidget_tabBarDoubleClicked(int index)
     /** Перед котрытием нового проекта останавливаем таймер, если таковой был запущен */
     cmw->stopTaskTimer();
 
+    /** Если текущий рабочий каталог не является домашним, делаем текущим родительский каталог */
     if (*cmw->workDir != QDir::homePath())
     {
         QDir currDir;
@@ -457,7 +444,7 @@ void MainWindow::on_tabWidget_tabBarDoubleClicked(int index)
 /* Открытие новой закладки с проектом */
 void MainWindow::open_project()
 {
-    qDebug() << "Функция open_project запустилась (модель) " << " Рабочий каталог " << *cmw->workDir;
+    qDebug() << "Функция open_project запустилась (модель) ";
     //qDebug() << *cmw->dps->cps.workDir;
     //cmw->workDir = cmw->dps->cps.workDir;
     /** Исключаем ситуацию, при которой в окне выбора каталога была нажата кнопка "Отмена" */
@@ -472,9 +459,9 @@ void MainWindow::open_project()
         ui->mainToolBar->actions()[7]->setEnabled(true);
 
         /** Активируем основные элементы окна. Они заблокированы до тех пор, пока не будет открыт хотябы 1 проект */
-        ui->tableWidget->setEnabled(true);
-        ui->calendarWidget->setEnabled(true);
-        ui->plainTextEdit->setEnabled(true);
+        ui->tableWidget     ->setEnabled(true);
+        ui->calendarWidget  ->setEnabled(true);
+        ui->plainTextEdit   ->setEnabled(true);
 
         /** Открываем файл проекта для получения его наименования */
         qDebug() << "ПЕРЕД ОТКРЫТИЕМ ПРОЕКТА";

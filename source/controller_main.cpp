@@ -109,7 +109,7 @@ void controller_main::writeToJSON()
 /* Запись данных о рабочем дне в файл */
 void controller_main::saveProjToFile()
 {
-    qDebug() << "Функция saveProjToFile() запустилась. (Родительский контроллер) Рабочий каталог " << *workDir;
+    qDebug() << "Функция controller_main::saveProjToFile() запустилась. (Родительский контроллер) Рабочий каталог " << *workDir;
 
     qDebug() << *workDir+"/PRJ.dat";
     QFile file(*workDir+"/PRJ.dat");
@@ -125,7 +125,7 @@ void controller_main::readProjFromFile()
 {
     qDebug() << "Функция readProjFromFile() запустилась";
 
-
+    /** Очищаем JSON массив с данными проекта */
     int dataArray_count = j_dataArray.count();
     for (int i=0; i<dataArray_count; i++)
     {
@@ -133,9 +133,12 @@ void controller_main::readProjFromFile()
     }
     dataFromFile.clear();
 
+    /** Если насменование рабочего каталога не пустое */
     if (workDir->length() > 0)
     {
         qDebug() << *workDir+"/PRJ.dat";
+
+        /** Открываем файл проекта */
         QFile file(*workDir+"/PRJ.dat");
         if (file.exists())
         {
