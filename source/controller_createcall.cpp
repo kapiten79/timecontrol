@@ -24,9 +24,10 @@ void controller_createCall::get_projList()
     qDebug() << "Функция controller_createCall::get_projList() запусилась (контроллер)";
 
     QStringList qsl;
-    qDebug() << workDir;
-    QDir qd(QDir::currentPath()+"/Project");
+    qDebug() << *workDir;
+    QDir qd(*workDir);
 
+    qd.cd("..");
     qsl = qd.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     for (int i=0; i<qsl.count(); i++)
     {

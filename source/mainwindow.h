@@ -88,6 +88,8 @@ private slots:
 
     void on_tabWidget_tabCloseRequested(int index);
 
+    void on_checkBoxDone_clicked();
+
 private:
     Ui::MainWindow          *ui         ;
     controller_mainWindow   *cmw = new controller_mainWindow         ;

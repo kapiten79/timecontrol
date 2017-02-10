@@ -171,6 +171,7 @@ void MainWindow::on_pushButton_clicked()
 
         cmw->open_createTaskDialog();
     }
+
 }
 
 /* Добавление новой записи о задаче */
@@ -205,6 +206,23 @@ void MainWindow::reloadTaskList()
             QTableWidgetItem * taskNameCol              = new QTableWidgetItem(cmw->tList.taskName[i].toString() );
             QTableWidgetItem * timerCol                 = new QTableWidgetItem(cmw->tList.taskTime[i].toString() );
             QTableWidgetItem * priceCol                 = new QTableWidgetItem(cmw->tList.taskPrice[i].toString());
+
+            if (cmw->tList.taskTime[i].toString() == "00:00:00")
+            {
+                /** Визуальное отображение только что созданной задачи */
+                QColor indColor(255, 0, 0, 150);
+                //taskNameCol->setBackgroundColor(indColor);
+                timerCol->setBackgroundColor(indColor);
+                priceCol->setBackgroundColor(indColor);
+            }
+            else
+            {
+                /** Визуальное отображение начала работы над задачей */
+                QColor indColor("yellow");
+                //taskNameCol->setBackgroundColor(indColor);
+                timerCol->setBackgroundColor(indColor);
+                priceCol->setBackgroundColor(indColor);
+            }
 
             /** Запрещаем любые действия с полями времени и стоимости работ  */
             timerCol->setFlags(Qt::NoItemFlags);
@@ -248,6 +266,14 @@ void MainWindow::on_pushButton_2_clicked()
 {
     qDebug() << "Функция on_pushButton_2_clicked запустилась (модель)";
     cmw->stopTaskTimer();
+
+    /** Визуальное отображение начала работы над задачей */
+    int currRow = ui->tableWidget->currentRow();
+    QColor indColor("yellow");
+    ui->tableWidget->item(currRow,0)->setBackgroundColor(indColor);
+    ui->tableWidget->item(currRow,1)->setBackgroundColor(indColor);
+    ui->tableWidget->item(currRow,2)->setBackgroundColor(indColor);
+
     if (ui->tableWidget->rowCount() > 0)
     {
         /** Определяем значения таймера в выделенной строке */
@@ -445,8 +471,7 @@ void MainWindow::on_tabWidget_tabBarDoubleClicked(int index)
 void MainWindow::open_project()
 {
     qDebug() << "Функция open_project запустилась (модель) ";
-    //qDebug() << *cmw->dps->cps.workDir;
-    //cmw->workDir = cmw->dps->cps.workDir;
+
     /** Исключаем ситуацию, при которой в окне выбора каталога была нажата кнопка "Отмена" */
 
     if (*cmw->workDir != "")
@@ -668,5 +693,17 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
             cmw->close_project(index);
         }
         ui->tabWidget->removeTab(index);
+    }
+}
+
+void MainWindow::on_checkBoxDone_clicked()
+{
+    if (ui->checkBoxDone->isChecked())
+    {
+        qDebug() << "Отмечено";
+    }
+    else
+    {
+        qDebug() << "Снято";
     }
 }
