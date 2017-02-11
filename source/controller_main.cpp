@@ -93,6 +93,7 @@ void controller_main::writeToJSON()
         newTaskQv << tList.taskTime       [i].toString();
         newTaskQv << tList.taskPrice      [i].toString();
         newTaskQv << tList.taskFullText   [i].toString();
+        newTaskQv << tList.completeFlag   [i].toString();
         secondLevel = QJsonArray::fromVariantList(newTaskQv);
         firstLevel.insert(firstLevel.count(),secondLevel);
     }

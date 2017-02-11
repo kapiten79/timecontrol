@@ -28,7 +28,7 @@ void MainWindow::init_windowParams()
     cmw->model = this;
 
     /** Параметры главного окна */
-    this->setWindowTitle("Контроль времени.  v 1.00.002");
+    this->setWindowTitle("Контроль времени.  v 1.00.003");
 
     /** Получаем ширину поля таблицы и высчитываем ширину поля
      * заголовка в процентном соотношении */
@@ -210,7 +210,7 @@ void MainWindow::reloadTaskList()
             if (cmw->tList.taskTime[i].toString() == "00:00:00")
             {
                 /** Визуальное отображение только что созданной задачи */
-                QColor indColor(255, 0, 0, 150);
+                QColor indColor(255, 117, 24);
                 //taskNameCol->setBackgroundColor(indColor);
                 timerCol->setBackgroundColor(indColor);
                 priceCol->setBackgroundColor(indColor);
@@ -218,10 +218,24 @@ void MainWindow::reloadTaskList()
             else
             {
                 /** Визуальное отображение начала работы над задачей */
-                QColor indColor("yellow");
+                QColor indColor("lightyellow");
                 //taskNameCol->setBackgroundColor(indColor);
                 timerCol->setBackgroundColor(indColor);
                 priceCol->setBackgroundColor(indColor);
+            }
+
+            if (cmw->tList.completeFlag[i].toString() == "1")
+            {
+                QColor indColor("lightgreen");
+                //taskNameCol->setBackgroundColor(indColor);
+                timerCol->setBackgroundColor(indColor);
+                priceCol->setBackgroundColor(indColor);
+
+                ui->checkBoxDone->setChecked(true);
+            }
+            else
+            {
+                ui->checkBoxDone->setChecked(false);
             }
 
             /** Запрещаем любые действия с полями времени и стоимости работ  */
@@ -245,6 +259,11 @@ void MainWindow::reloadTaskList()
 
             ui->plainTextEdit->setPlainText(cmw->tList.taskFullText[cmw->currIndexNum].toString());
             ui->plainTextEdit->setFocus();
+
+            if (cmw->tList.completeFlag[cmw->currIndexNum] == "1")
+            {
+                ui->checkBoxDone->setChecked(true);
+            }
         }
         if(ui->tableWidget->rowCount() > 0)
         {
@@ -268,8 +287,9 @@ void MainWindow::on_pushButton_2_clicked()
     cmw->stopTaskTimer();
 
     /** Визуальное отображение начала работы над задачей */
-    int currRow = ui->tableWidget->currentRow();
-    QColor indColor("yellow");
+    int currRow = cmw->currTaskNum;
+    qDebug() << currRow;
+    QColor indColor("lightyellow");
     ui->tableWidget->item(currRow,0)->setBackgroundColor(indColor);
     ui->tableWidget->item(currRow,1)->setBackgroundColor(indColor);
     ui->tableWidget->item(currRow,2)->setBackgroundColor(indColor);
@@ -334,9 +354,17 @@ void MainWindow::on_pushButton_3_clicked()
 void MainWindow::on_plainTextEdit_textChanged()
 {
     qDebug() << "Функция on_plainTextEdit_textChanged запустилась (модель) " << cmw->currTaskNum;
-    if (ui->tableWidget->rowCount() > 0)
+    if (ui->tableWidget->rowCount() > 0 && ui->tableWidget->rowCount() > cmw->currTaskNum)
     {
         cmw->tList.taskFullText[cmw->currIndexNum] = ui->plainTextEdit->toPlainText();
+        if (cmw->tList.completeFlag[cmw->currIndexNum] == "1")
+        {
+            ui->checkBoxDone->setChecked(true);
+        }
+        else
+        {
+            ui->checkBoxDone->setChecked(false);
+        }
     }
 }
 
@@ -487,6 +515,7 @@ void MainWindow::open_project()
         ui->tableWidget     ->setEnabled(true);
         ui->calendarWidget  ->setEnabled(true);
         ui->plainTextEdit   ->setEnabled(true);
+        ui->checkBoxDone    ->setEnabled(true);
 
         /** Открываем файл проекта для получения его наименования */
         qDebug() << "ПЕРЕД ОТКРЫТИЕМ ПРОЕКТА";
@@ -608,6 +637,7 @@ void MainWindow::set_nextDay(bool tr)
     ui->menuBar         ->setEnabled(false);
     ui->mainToolBar     ->setEnabled(false);
     ui->plainTextEdit   ->setEnabled(false);
+    ui->checkBoxDone    ->setEnabled(false);
     ui->pushButton      ->setEnabled(false);
     ui->pushButton_2    ->setEnabled(false);
     ui->pushButton_3    ->setEnabled(false);
@@ -662,6 +692,7 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
             /** Блокируем календарь, таблицу и поле описания задачи */
             ui->tableWidget     ->setEnabled(false);
             ui->plainTextEdit   ->setEnabled(false);
+            ui->checkBoxDone    ->setEnabled(false);
 
             /** Блокируем иконки панели инструментов */
             ui->mainToolBar->actions()[1]->setEnabled(false);
@@ -696,14 +727,25 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
     }
 }
 
+/* Установка флага выполненной задачи */
 void MainWindow::on_checkBoxDone_clicked()
 {
+    qDebug() << "Функция MainWindow::on_checkBoxDone_clicked() запустилась";
+
     if (ui->checkBoxDone->isChecked())
     {
-        qDebug() << "Отмечено";
+        cmw->tList.completeFlag[cmw->currIndexNum] = "1";
+        QColor indColor("lightgreen");
+        ui->tableWidget->item(cmw->currTaskNum,0)->setBackgroundColor(indColor);
+        ui->tableWidget->item(cmw->currTaskNum,1)->setBackgroundColor(indColor);
+        ui->tableWidget->item(cmw->currTaskNum,2)->setBackgroundColor(indColor);
     }
     else
     {
-        qDebug() << "Снято";
+        cmw->tList.completeFlag[cmw->currIndexNum] = "0";
+        QColor indColor("lightyellow");
+        ui->tableWidget->item(cmw->currTaskNum,0)->setBackgroundColor(indColor);
+        ui->tableWidget->item(cmw->currTaskNum,1)->setBackgroundColor(indColor);
+        ui->tableWidget->item(cmw->currTaskNum,2)->setBackgroundColor(indColor);
     }
 }

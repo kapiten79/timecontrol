@@ -39,6 +39,7 @@ void controller_mainWindow::init_window(int flag)
         tList.taskSecond    .clear();
         tList.taskRuble     .clear();
         tList.taskKop       .clear();
+        tList.completeFlag  .clear();
 
         /** Добавляем в структуру taskList задачи за весь проект */
         qDebug() << "Размер массива " << j_dataArray.count();
@@ -50,6 +51,7 @@ void controller_mainWindow::init_window(int flag)
             tList.taskTime        << j_dataArray[i].toArray()[3].toString();
             tList.taskPrice       << j_dataArray[i].toArray()[4].toString();
             tList.taskFullText    << j_dataArray[i].toArray()[5].toString();
+            if (j_dataArray[i].toArray().count() == 7){tList.completeFlag    << j_dataArray[i].toArray()[6].toString();}else{tList.completeFlag    << "0";}
 
             if (j_dataArray[i].toArray()[3].toString() == "00:00:00")
             {
@@ -238,6 +240,7 @@ void controller_mainWindow::addTask(QString taskName)
     tList.taskRuble      .insert(newIndex, QVariant("0"));
     tList.taskSecond     .insert(newIndex, QVariant("0"));
     tList.taskTime       .insert(newIndex, QVariant("00:00:00"));
+    tList.completeFlag   .insert(newIndex, QVariant("0"));
     saveDay();
     setDay();
 
@@ -518,6 +521,7 @@ void controller_mainWindow::removeCurrTask()
     tList.taskTime       .removeAt(currIndexNum);
     tList.taskDate       .removeAt(currIndexNum);
     tList.taskIndex      .removeAt(currIndexNum);
+    tList.completeFlag   .removeAt(currIndexNum);
 
     indexNumList         .removeAt(currTaskNum);
     taskNumList          .removeAt(currTaskNum);

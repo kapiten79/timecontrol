@@ -44,6 +44,7 @@ public:
         QVariantList taskRuble           ;
         QVariantList taskKop             ;
         QVariantList taskFullText        ;
+        QVariantList completeFlag        ;
     };
 
     taskList tList;
