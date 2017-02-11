@@ -599,6 +599,7 @@ void controller_mainWindow::open_dialogFind(bool tr)
 {
     qDebug() << "Функция open_dialogFind запустилась (контроллер) ";
     Dialog_find *df = new Dialog_find;
+    df->cf.workDir = workDir;
     df->setWindowTitle("Поиск");
     df->init_window();
 }

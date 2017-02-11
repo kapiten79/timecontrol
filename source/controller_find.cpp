@@ -8,9 +8,10 @@ controller_find::controller_find()
 /* Получение списка папок проектов */
 void controller_find::get_projList()
 {
-    qDebug() << "Функция controller_find::get_projList() запутилась (контроллер)";
-    qsl;
-    QDir qd(QDir::currentPath()+"/Project");
+    qDebug() << "Функция controller_find::get_projList() запутилась (контроллер) " << *workDir;
+
+    QDir qd(*workDir);
+    qd.cd("..");
 
     qsl = qd.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     for (int i=0; i<qsl.count(); i++)

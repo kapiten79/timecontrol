@@ -210,8 +210,8 @@ void controller_main::writeProjToJSON()
 /* Запись данных о рабочем дне в файл */
 void controller_main::saveCallToFile()
 {
-    qDebug() << "Текущий каталог проекта " << workDir;
-    qDebug() << "Функция saveCallToFile() запустилась. (Родительский контроллер) Рабочий каталог " << workDir;
+    qDebug() << "Текущий каталог проекта " << *workDir;
+    qDebug() << "Функция saveCallToFile() запустилась. (Родительский контроллер) Рабочий каталог " << *workDir;
 
 
     if (workDir->length() > 0)
