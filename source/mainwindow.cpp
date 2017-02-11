@@ -650,6 +650,7 @@ void MainWindow::on_action_5_triggered()
 {
     qDebug() << "Функция on_action_5_triggered запустилась (модель)";
     Dialog_timeReport *tr = new Dialog_timeReport;
+    tr->ctr->workDir = cmw->workDir;
     tr->setWindowTitle("Отчёт по времени");
     tr->init_window();
 }
@@ -660,6 +661,7 @@ void MainWindow::on_action_6_triggered()
 {
     qDebug() << "Функция MainWindow::on_action_6_triggered() запустилась (модель)";
     Dialog_reportTask *drt = new Dialog_reportTask;
+    drt->crt.workDir = cmw->workDir;
     drt->setWindowTitle("Отчёт по выполненным заданиям за период");
     drt->init_window();
 }
@@ -667,7 +669,7 @@ void MainWindow::on_action_6_triggered()
 /* Кнопка закрытия закладки с проектом */
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
 {
-    qDebug() << "Функция MainWindow::on_action_6_triggered() запустилась (модель)" ;
+    qDebug() << "Функция MainWindow::on_tabWidget_tabCloseRequested(int index) запустилась (модель)" ;
     if (ui->tabWidget->tabText(index) != "Выберите папку проекта двойным щелчком ...")
     {
         qDebug() << "В условии";

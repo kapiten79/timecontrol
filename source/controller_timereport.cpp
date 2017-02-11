@@ -8,10 +8,10 @@ controller_timereport::controller_timereport()
 /* Получение списка папок проектов */
 void controller_timereport::get_projList()
 {
-    qDebug() << "Функция get_projList запутилась (контроллер)";
+    qDebug() << "Функция get_projList запутилась (контроллер) " << *workDir;
     qsl;
-    QDir qd(QDir::currentPath()+"/Project");
-
+    QDir qd(*workDir);
+    qd.cd("..");
     qsl = qd.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     for (int i=0; i<qsl.count(); i++)
     {
