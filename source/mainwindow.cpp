@@ -28,7 +28,7 @@ void MainWindow::init_windowParams()
     cmw->model = this;
 
     /** Параметры главного окна */
-    this->setWindowTitle("Контроль времени.  v 1.00.003");
+    this->setWindowTitle("Контроль времени.  v 1.00.006");
 
     /** Получаем ширину поля таблицы и высчитываем ширину поля
      * заголовка в процентном соотношении */
@@ -738,7 +738,7 @@ void MainWindow::on_checkBoxDone_clicked()
     {
         cmw->tList.completeFlag[cmw->currIndexNum] = "1";
         QColor indColor("lightgreen");
-        ui->tableWidget->item(cmw->currTaskNum,0)->setBackgroundColor(indColor);
+        //ui->tableWidget->item(cmw->currTaskNum,0)->setBackgroundColor(indColor);
         ui->tableWidget->item(cmw->currTaskNum,1)->setBackgroundColor(indColor);
         ui->tableWidget->item(cmw->currTaskNum,2)->setBackgroundColor(indColor);
     }
@@ -746,7 +746,7 @@ void MainWindow::on_checkBoxDone_clicked()
     {
         cmw->tList.completeFlag[cmw->currIndexNum] = "0";
         QColor indColor("lightyellow");
-        ui->tableWidget->item(cmw->currTaskNum,0)->setBackgroundColor(indColor);
+        //ui->tableWidget->item(cmw->currTaskNum,0)->setBackgroundColor(indColor);
         ui->tableWidget->item(cmw->currTaskNum,1)->setBackgroundColor(indColor);
         ui->tableWidget->item(cmw->currTaskNum,2)->setBackgroundColor(indColor);
     }
