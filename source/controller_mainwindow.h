@@ -39,7 +39,7 @@ public:
     Dialog_createTask   *dct    = new Dialog_createTask     ;
     Dialog_info         *di     = new Dialog_info           ;
 
-
+    bool errorFlag = false;
 
 
 private:

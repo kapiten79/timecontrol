@@ -28,7 +28,7 @@ void MainWindow::init_windowParams()
     cmw->model = this;
 
     /** Параметры главного окна */
-    this->setWindowTitle("Контроль времени.  v 1.00.011");
+    this->setWindowTitle("Контроль времени.  v 1.00.013");
 
     /** Получаем ширину поля таблицы и высчитываем ширину поля
      * заголовка в процентном соотношении */
@@ -470,6 +470,8 @@ void MainWindow::on_tabWidget_tabBarDoubleClicked(int index)
     /** Перед котрытием нового проекта останавливаем таймер, если таковой был запущен */
     cmw->stopTaskTimer();
 
+    tempWorkDir = *cmw->workDir;
+
     /** Если текущий рабочий каталог не является домашним, делаем текущим родительский каталог */
     if (*cmw->workDir != QDir::homePath())
     {
@@ -478,6 +480,8 @@ void MainWindow::on_tabWidget_tabBarDoubleClicked(int index)
         currDir.cdUp();
         *cmw->workDir = currDir.path();
     }
+
+
 
     /** Открываем диалоговое окно выбора каталога */
     QString dir = QFileDialog::getExistingDirectory(this, tr("Выберите каталог проекта или создайте новый ..."),
@@ -522,7 +526,7 @@ void MainWindow::open_project()
         qDebug() << "ПЕРЕД ОТКРЫТИЕМ ПРОЕКТА";
         cmw->open_project();
         qDebug() << "ПОСЛЕ ОТКРЫТИЕМ ПРОЕКТА";
-        if (cmw->pList->projNameSt == "")return;
+        if (cmw->errorFlag){*cmw->workDir = tempWorkDir;return;}
 
         /** Подготавливаем информацию для открытия проекта */
         int index = ui->tabWidget->count()-1    ;

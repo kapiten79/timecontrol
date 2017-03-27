@@ -613,14 +613,6 @@ void controller_mainWindow::open_project()
 {
     qDebug() << "Функция controller_mainWindow::open_project() запустилась";
 
-    pList->projNameSt        = "";
-    pList->projPriceSt       = "";
-    pList->projDescriptionSt = "";
-    pList->projContactNameSt = "";
-    pList->projPhoneSt       = "";
-    pList->projEmailSt       = "";
-
-
     if (dps->caller == "createNewProj")
     {
         workDir = dps->cps.workDir;
@@ -641,7 +633,13 @@ void controller_mainWindow::open_project()
         projList << j_dataArray[0].toArray()[0].toString();
 
         curr_hourPrice = pList->projPriceSt;
+        errorFlag = false;
     }
+    else
+    {
+        errorFlag = true;
+    }
+
 }
 
 /* Обработка нажатия кнопки создания проекта */

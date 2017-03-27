@@ -40,6 +40,7 @@ public:
     QString platform;
     QDir mainDir;
 
+    QString tempWorkDir; // Нужен на случай, если будет предпринята попытка открыть не верный каталог проекта и потребуется восстановить старый каталог
 public slots:
     void reloadTaskList     ();
     void init_windowParams  ();
