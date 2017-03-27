@@ -131,6 +131,16 @@ void Dialog_timeReport::on_pushButton_3_clicked()
     qDebug() << "Функция Dialog_timeReport::on_pushButton_3_clicked() запустилась (модель)";
 
     ctr->model = this;
+    ctr->selectedProj.clear();
+
+    for (int i=0; i<ui->listWidget_2->count(); i++)
+    {
+        ctr->selectedProj << ui->listWidget_2->item(i)->text();
+    }
+
+    ctr->allDate = ui->checkBox->isChecked();
+    ctr->allProject = ui->checkBox_2->isChecked();
+
     ctr->dateBegin = ui->dateEdit->date();
     ctr->dateEnd   = ui->dateEdit_2->date();
     ctr->processReport();
@@ -155,7 +165,7 @@ void Dialog_timeReport::showResult()
         qDebug() << "Номер очередной строки " << newRowNum;
         ui->tableWidget->insertRow(newRowNum);
         QTableWidgetItem * projName              = new QTableWidgetItem(ctr->fList.projectName[i].toString());
-        QTableWidgetItem * projDate              = new QTableWidgetItem(ctr->fList.date[i]       .toString());
+        QTableWidgetItem * projDate              = new QTableWidgetItem(QDate::fromString(ctr->fList.date[i].toString(), "yyyy-MM-dd").toString("dd.MM.yyyy"));
         QTableWidgetItem * projTaskCount         = new QTableWidgetItem(ctr->fList.taskCount[i]  .toString());
         QTableWidgetItem * projTimeCount         = new QTableWidgetItem(ctr->fList.timeCount[i]  .toString());
         QTableWidgetItem * projMoneyCount        = new QTableWidgetItem(ctr->fList.moneyCount[i] .toString());

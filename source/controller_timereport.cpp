@@ -75,7 +75,9 @@ void controller_timereport::processReport()
     /** Перебираем список проектов */
     for (int i=0; i<selectedProj.count(); i++)
     {
-        //workDir = QDir::currentPath()+"/Project/"+selectedProj[i];
+        QDir qd(*workDir);
+        qd.cd("..");
+        *workDir = qd.path()+"/"+selectedProj[i];
         readFromFile();
 
         qDebug() << "Общее количество задач " << j_dataArray.count();
