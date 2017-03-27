@@ -612,6 +612,15 @@ void controller_mainWindow::open_dialogFind(bool tr)
 void controller_mainWindow::open_project()
 {
     qDebug() << "Функция controller_mainWindow::open_project() запустилась";
+
+    pList->projNameSt        = "";
+    pList->projPriceSt       = "";
+    pList->projDescriptionSt = "";
+    pList->projContactNameSt = "";
+    pList->projPhoneSt       = "";
+    pList->projEmailSt       = "";
+
+
     if (dps->caller == "createNewProj")
     {
         workDir = dps->cps.workDir;

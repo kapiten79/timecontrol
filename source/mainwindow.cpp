@@ -28,7 +28,7 @@ void MainWindow::init_windowParams()
     cmw->model = this;
 
     /** Параметры главного окна */
-    this->setWindowTitle("Контроль времени.  v 1.00.010");
+    this->setWindowTitle("Контроль времени.  v 1.00.011");
 
     /** Получаем ширину поля таблицы и высчитываем ширину поля
      * заголовка в процентном соотношении */
@@ -522,6 +522,7 @@ void MainWindow::open_project()
         qDebug() << "ПЕРЕД ОТКРЫТИЕМ ПРОЕКТА";
         cmw->open_project();
         qDebug() << "ПОСЛЕ ОТКРЫТИЕМ ПРОЕКТА";
+        if (cmw->pList->projNameSt == "")return;
 
         /** Подготавливаем информацию для открытия проекта */
         int index = ui->tabWidget->count()-1    ;
