@@ -751,3 +751,18 @@ void MainWindow::on_checkBoxDone_clicked()
         ui->tableWidget->item(cmw->currTaskNum,2)->setBackgroundColor(indColor);
     }
 }
+
+/* Открытие окна создания проекта */
+void MainWindow::on_action_8_triggered()
+{
+    qDebug() << "Функция MainWindow::on_action_8_triggered() запустилась";
+    cmw->create_project();
+}
+
+/* Открытие окна рассчёта текущего проекта */
+void MainWindow::on_action_7_triggered()
+{
+    qDebug() << "Функция MainWindow::on_action_7_triggered() запустилась";
+    dialog_claculateProj *dcp = new dialog_claculateProj;\
+    dcp->initWindow();
+}

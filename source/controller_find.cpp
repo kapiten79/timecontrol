@@ -33,6 +33,7 @@ void controller_find::process_search()
     fList.time          .clear();
     fList.description   .clear();
     fList.type          .clear();
+    fList.projectName   .clear();
 
 
 
@@ -40,8 +41,10 @@ void controller_find::process_search()
     {
         for (int i=0; i<qsl.count(); i++)
         {
-            //workDir = QDir::current().currentPath()+"/Project/"+ qsl[i];
-            qDebug() << "Очередной каталог проекта " << workDir;
+            QDir qd(*workDir);
+            qd.cd("..");
+            *workDir = qd.path()+"/"+ qsl[i];
+            qDebug() << "Очередной каталог проекта " << *workDir;
             readFromFile    ()      ;
 
             /** Добавляем в структуру taskList задачи за весь проект */
@@ -70,8 +73,10 @@ void controller_find::process_search()
     }
     else
     {
-        //workDir = QDir::current().currentPath()+"/Project/"+ projectName;
-        qDebug() << "Очередной каталог проекта " << workDir;
+        QDir qd(*workDir);
+        qd.cd("..");
+        *workDir = qd.path()+"/"+ projectName;
+        qDebug() << "Очередной каталог проекта " << *workDir;
         readFromFile    ()      ;
 
         /** Добавляем в структуру taskList задачи за весь проект */

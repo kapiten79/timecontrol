@@ -24,6 +24,7 @@ public:
 
     QString projectName         ;
     QString subString           ;
+    QString findWorkDir;
 
     QStringList qsl;
 

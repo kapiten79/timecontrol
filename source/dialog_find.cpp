@@ -65,6 +65,7 @@ void Dialog_find::on_pushButton_clicked()
 
     qDebug() << ui->tableWidget->rowCount();
 
+    ui->plainTextEdit->setPlainText("");
     for (int i=0; i<cf.fList.date.count(); i++)
     {
         /** Вывод списка результатов поиска */
@@ -73,7 +74,7 @@ void Dialog_find::on_pushButton_clicked()
 
         ui->tableWidget->insertRow(newRowNum);
 
-        QTableWidgetItem * date         = new QTableWidgetItem(cf.fList.date        [i].toString());
+        QTableWidgetItem * date         = new QTableWidgetItem(QDate::fromString(cf.fList.date[i].toString(), "dd_MM_yyyy").toString("dd.MM.yyyy"));
         QTableWidgetItem * time         = new QTableWidgetItem(cf.fList.time        [i].toString());
         QTableWidgetItem * projectName  = new QTableWidgetItem(cf.fList.projectName [i].toString());
         QTableWidgetItem * topic        = new QTableWidgetItem(cf.fList.topic       [i].toString());

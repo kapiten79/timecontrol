@@ -44,7 +44,8 @@ SOURCES += main.cpp\
     dialog_reporttask.cpp \
     controller_reporttask.cpp \
     controller_exportcalc.cpp \
-    class_send_tcp_request.cpp
+    class_send_tcp_request.cpp \
+    dialog_claculateproj.cpp
 
 HEADERS  += mainwindow.h \
     dialog_createtask.h \
@@ -66,7 +67,8 @@ HEADERS  += mainwindow.h \
     dialog_reporttask.h \
     controller_reporttask.h \
     controller_exportcalc.h \
-    class_send_tcp_request.h
+    class_send_tcp_request.h \
+    dialog_claculateproj.h
 
 FORMS    += mainwindow.ui \
     dialog_createtask.ui \
@@ -77,7 +79,8 @@ FORMS    += mainwindow.ui \
     dialog_viewcalllist.ui \
     dialog_find.ui \
     dialog_timereport.ui \
-    dialog_reporttask.ui
+    dialog_reporttask.ui \
+    dialog_claculateproj.ui
 
 RESOURCES += \
     qrc.qrc

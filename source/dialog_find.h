@@ -2,6 +2,7 @@
 #define DIALOG_FIND_H
 
 #include <QDialog>
+#include <QDate>
 #include <controller_find.h>
 
 namespace Ui {

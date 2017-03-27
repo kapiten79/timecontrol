@@ -305,7 +305,10 @@
     <property name="title">
      <string>Параметры проекта</string>
     </property>
+    <addaction name="action_8"/>
     <addaction name="projectSettings"/>
+    <addaction name="action_7"/>
+    <addaction name="action_9"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -390,6 +393,27 @@
   <action name="action_6">
    <property name="text">
     <string>По выполненным задачам</string>
+   </property>
+  </action>
+  <action name="action_7">
+   <property name="text">
+    <string>Рассчёт текущего проекта</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+  </action>
+  <action name="action_8">
+   <property name="text">
+    <string>Создание проекта</string>
+   </property>
+  </action>
+  <action name="action_9">
+   <property name="text">
+    <string>Платежи по проекту</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
  </widget>

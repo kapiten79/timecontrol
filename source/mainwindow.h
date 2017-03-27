@@ -19,13 +19,9 @@
 #include <dialog_viewcalllist.h>
 #include <dialog_timereport.h>
 #include <dialog_reporttask.h>
-
+#include <dialog_claculateproj.h>
 
 #include <controller_mainwindow.h>
-
-
-
-
 
 namespace Ui {
 class MainWindow;
@@ -89,6 +85,10 @@ private slots:
     void on_tabWidget_tabCloseRequested(int index);
 
     void on_checkBoxDone_clicked();
+
+    void on_action_8_triggered();
+
+    void on_action_7_triggered();
 
 private:
     Ui::MainWindow          *ui         ;
