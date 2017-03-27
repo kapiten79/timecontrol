@@ -65,7 +65,12 @@ void controller_createCall::saveCall(QString projName)
     disconnect(dps, SIGNAL(s_setProjParams(QString)), this, SLOT(saveCall(QString)));
     pList->projNameSt = projName;
     //workDir = QDir::currentPath()+"/Project/"+projName;
+    QDir qd(*workDir);
+    qd.cd("..");
+    QString tempWorkDir = *workDir;
+    *workDir = qd.path()+"/"+projName;
     writeCallToJSON();
+    *workDir = tempWorkDir;
 }
 
 void controller_createCall::get_oldCalls()

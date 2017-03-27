@@ -77,9 +77,10 @@ void controller_timereport::processReport()
     {
         QDir qd(*workDir);
         qd.cd("..");
+        QString tempWorkDir = *workDir;
         *workDir = qd.path()+"/"+selectedProj[i];
         readFromFile();
-
+        *workDir = tempWorkDir;
         qDebug() << "Общее количество задач " << j_dataArray.count();
 
         /** Объясляем переменные для очередного проекта */

@@ -43,10 +43,12 @@ void controller_find::process_search()
         {
             QDir qd(*workDir);
             qd.cd("..");
+
+            QString tempWorkDir = *workDir;
             *workDir = qd.path()+"/"+ qsl[i];
             qDebug() << "Очередной каталог проекта " << *workDir;
             readFromFile    ()      ;
-
+            *workDir = tempWorkDir;
             /** Добавляем в структуру taskList задачи за весь проект */
             for (int j=0; j<j_dataArray.count(); j++)
             {
@@ -75,10 +77,12 @@ void controller_find::process_search()
     {
         QDir qd(*workDir);
         qd.cd("..");
+        QString tempWorkDir = *workDir;
         *workDir = qd.path()+"/"+ projectName;
+
         qDebug() << "Очередной каталог проекта " << *workDir;
         readFromFile    ()      ;
-
+        *workDir = tempWorkDir;
         /** Добавляем в структуру taskList задачи за весь проект */
         qDebug() << "Размер массива " << j_dataArray.count();
         for (int i=0; i<j_dataArray.count(); i++)
