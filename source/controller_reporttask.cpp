@@ -44,16 +44,19 @@ void controller_reporttask::processReport()
     int     globalMinut       = 0                    ;
     int     globalSecs        = 0                    ;
 
-    QString globalRubSt;
-    QString globalKopSt;
+    QString globalRubSt     ;
+    QString globalKopSt     ;
 
-    QString globalHourSt;
-    QString globalMinutSt;
-    QString globalSecsSt;
+    QString globalHourSt    ;
+    QString globalMinutSt   ;
+    QString globalSecsSt    ;
 
 
 
     //workDir = QDir::currentPath()+"/Project/"+selectedProj;
+    QDir qd(*workDir);
+    qd.cd("..");
+    *workDir = qd.path()+"/"+selectedProj;
     readFromFile();
 
     qDebug() << "Общее количество задач " << j_dataArray.count();

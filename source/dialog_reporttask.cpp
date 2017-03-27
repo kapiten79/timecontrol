@@ -52,9 +52,9 @@ void Dialog_reportTask::addProj(QString projName)
 void Dialog_reportTask::on_pushButton_clicked()
 {
     qDebug() << "Функция Dialog_reportTask::on_pushButton_clicked() запустилась (модель)";
-    crt.selectedProj = ui->comboBox->currentText();
-    crt.dateBegin = ui->dateEdit->date();
-    crt.dateEnd = ui->dateEdit_2->date();
+    crt.selectedProj    = ui->comboBox->currentText();
+    crt.dateBegin       = ui->dateEdit->date();
+    crt.dateEnd         = ui->dateEdit_2->date();
     crt.processReport();
 }
 

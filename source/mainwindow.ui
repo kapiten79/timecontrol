@@ -353,6 +353,9 @@
    </property>
   </action>
   <action name="action">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Создать звонок</string>
    </property>
@@ -366,6 +369,9 @@
    </property>
   </action>
   <action name="action_3">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Общий поиск</string>
    </property>
@@ -386,11 +392,17 @@
    </property>
   </action>
   <action name="action_5">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>По времени</string>
    </property>
   </action>
   <action name="action_6">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>По выполненным задачам</string>
    </property>

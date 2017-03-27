@@ -28,7 +28,7 @@ void MainWindow::init_windowParams()
     cmw->model = this;
 
     /** Параметры главного окна */
-    this->setWindowTitle("Контроль времени.  v 1.00.007");
+    this->setWindowTitle("Контроль времени.  v 1.00.008");
 
     /** Получаем ширину поля таблицы и высчитываем ширину поля
      * заголовка в процентном соотношении */
@@ -505,6 +505,7 @@ void MainWindow::open_project()
     if (*cmw->workDir != "")
     {
         /** Активируем иконки панели задач. Они заблокированы до тех пор, пока не будет открыт хотябы 1 проект */
+        ui->mainToolBar->actions()[0]->setEnabled(true);
         ui->mainToolBar->actions()[1]->setEnabled(true);
         ui->mainToolBar->actions()[2]->setEnabled(true);
         ui->mainToolBar->actions()[4]->setEnabled(true);
@@ -556,7 +557,11 @@ void MainWindow::open_project()
         }
 
         /** Активируем пункты меню */
+        ui->action->setEnabled(true);
         ui->action_2->setEnabled(true);
+        ui->action_3->setEnabled(true);
+        ui->action_5->setEnabled(true);
+        ui->action_6->setEnabled(true);
         ui->projectSettings->setEnabled(true);
         cmw->init_window();
     }
