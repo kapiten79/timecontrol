@@ -97,7 +97,7 @@ void Dialog_reportTask::on_pushButton_3_clicked()
     controller_exportExcel *cee = new controller_exportExcel;
     cee->topics << "Задача"<<"Дата"<<"Потрачено времени"<<"Потрачено денег"<<"Пометки";
     cee->widthList << "25" << "50" << "25" << "25" << "100" ;
-    cee->total << "" << "" << "" << ui->label_8->text() << ui->label_9->text()<< "";
+    cee->total << "" << "" << "" << ui->label_8->text() << ui->label_9->text() << "";
     QVector <QString> column1;
     QVector <QString> column2;
     QVector <QString> column3;
@@ -105,11 +105,11 @@ void Dialog_reportTask::on_pushButton_3_clicked()
     QVector <QString> column5;
     for (int i=0; i<ui->tableWidget->rowCount(); i++)
     {
-        column1.push_back(crt.fList.taskName[i].toString());
-        column2.push_back(crt.fList.date[i].toString());
-        column3.push_back(crt.fList.timeCount[i].toString());
-        column4.push_back(crt.fList.moneyCount[i].toString());
-        column5.push_back(crt.fList.taskDeskription[i].toString());
+        column1.push_back(crt.fList.taskName[i]         .toString());
+        column2.push_back(crt.fList.date[i]             .toString());
+        column3.push_back(crt.fList.timeCount[i]        .toString());
+        column4.push_back(crt.fList.moneyCount[i]       .toString());
+        column5.push_back(crt.fList.taskDeskription[i]  .toString());
     }
 
     cee->qv.push_back(column1);

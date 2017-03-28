@@ -193,7 +193,7 @@ void Dialog_timeReport::on_pushButton_5_clicked()
     controller_exportExcel *cee = new controller_exportExcel;
     cee->topics << "Наименование проекта"<<"Дата последней задачи"<<"Выполненных задач"<<"Потрачено времени"<<"Потрачено денег";
     cee->widthList << "50" << "25" << "25" << "25" << "25" ;
-    cee->total << "" << "" << "" << ui->label_6->text() << ui->label_8->text();
+    cee->total << "" << "" << "" << ui->label_6->text() << ui->label_8->text() << "";
     QVector <QString> column1;
     QVector <QString> column2;
     QVector <QString> column3;

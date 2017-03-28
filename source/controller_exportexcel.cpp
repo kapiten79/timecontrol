@@ -25,17 +25,6 @@ void controller_exportExcel::process_export()
     int count= sheets->dynamicCall("Count()").toInt();
     bool isEmpty = true;
 
-    /** Отладка! Получение документации по свойствам Excel */
-
-//    QFile outfile("C:/Temp/excel_range.html");
-//    QTextStream out( &outfile );
-//    outfile.open( QIODevice::WriteOnly| QIODevice::Text);
-//    QString docu = excel.generateDocumentation();
-//    out << docu;
-//    outfile.close();
-
-    /** Конец отладки */
-
     QAxObject *rangec;
     QAxObject *razmer;
 
@@ -79,7 +68,7 @@ void controller_exportExcel::process_export()
                         /** Внесение шапки */
                         if (j == 1)
                         {
-                            text = "Отчёт сгенерирован в программе 'Контроль времени'. &\"\"&"
+                            text = "Отчёт сгенерирован в программе 'Контроль времени'. "
                                            "\nНаименование отчёта: "+reportName+" \nДата отчёта: "+reportDate+" \nСформирован в: "+reportTime;
                         }
                         else{text = "";}
