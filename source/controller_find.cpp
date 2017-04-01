@@ -48,7 +48,7 @@ void controller_find::process_search()
             *workDir = qd.path()+"/"+ qsl[i];
             qDebug() << "Очередной каталог проекта " << *workDir;
             readFromFile    ()      ;
-            *workDir = tempWorkDir;
+
             /** Добавляем в структуру taskList задачи за весь проект */
             for (int j=0; j<j_dataArray.count(); j++)
             {
@@ -61,7 +61,7 @@ void controller_find::process_search()
             }
 
             readCallFromFile();
-
+            *workDir = tempWorkDir;
             for (int j=0; j<j_dataArray.count(); j++)
             {
                 fList.date        << j_dataArray[j].toArray()[0].toString();
@@ -82,7 +82,7 @@ void controller_find::process_search()
 
         qDebug() << "Очередной каталог проекта " << *workDir;
         readFromFile    ()      ;
-        *workDir = tempWorkDir;
+
         /** Добавляем в структуру taskList задачи за весь проект */
         qDebug() << "Размер массива " << j_dataArray.count();
         for (int i=0; i<j_dataArray.count(); i++)
@@ -97,7 +97,7 @@ void controller_find::process_search()
         }
 
         readCallFromFile();
-
+        *workDir = tempWorkDir;
         for (int i=0; i<j_dataArray.count(); i++)
         {
             fList.date        << j_dataArray[i].toArray()[0].toString();
@@ -138,7 +138,7 @@ void controller_find::process_search()
         int j = 0;
         for (int i=0; i<fListCount; i++)
         {
-            if(fList.type[j].toString() == "task")
+            if(fList.type[j].toString() == "Задача")
             {
                 fList.date          .removeAt(j);
                 fList.topic         .removeAt(j);
@@ -160,7 +160,7 @@ void controller_find::process_search()
         int j = 0;
         for (int i=0; i<fListCount; i++)
         {
-            if(fList.type[j].toString() == "call")
+            if(fList.type[j].toString() == "Звонок")
             {
                 fList.date          .removeAt(j);
                 fList.topic         .removeAt(j);
