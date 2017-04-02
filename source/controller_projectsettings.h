@@ -11,7 +11,7 @@ public:
     explicit controller_projectSettings();
 
     QObject *model;
-
+    QString *oldWorkDir;
 
 
 

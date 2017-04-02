@@ -24,11 +24,11 @@ void MainWindow::init_windowParams()
 {
     qDebug() << "Функция init_windowParams запустилась (модель)";
 
-    this->show();
+    this->showMaximized();
     cmw->model = this;
 
     /** Параметры главного окна */
-    this->setWindowTitle("Контроль времени.  v 1.00.015");
+    this->setWindowTitle("Контроль времени.  v 1.00.016");
 
     /** Получаем ширину поля таблицы и высчитываем ширину поля
      * заголовка в процентном соотношении */
@@ -136,6 +136,23 @@ void MainWindow::init_windowParams()
     /** Стиль календаря */
     ui->calendarWidget->setGridVisible(true);
     ui->calendarWidget->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader);
+
+    /** Создание списка шрифтов */
+    QFontDatabase *fd = new QFontDatabase;
+    ui->comboBoxFontList->insertItems(0,fd->families());
+    ui->comboBoxFontList->setCurrentText("Arial");
+
+    QFont currFont;
+    currFont.setPixelSize(14);
+    currFont.setFamily("Arial");
+    ui->plainTextEdit->setFont(currFont);
+
+    textCursor = ui->plainTextEdit->textCursor();
+
+    ui->toolButton          ->setCheckable(true);
+    ui->toolButtonNaklon    ->setCheckable(true);
+    ui->toolButtonPodcherk  ->setCheckable(true);
+    ui->toolButtonZacherk   ->setCheckable(true);
 
     setClearCalendar();
 }
@@ -257,7 +274,8 @@ void MainWindow::reloadTaskList()
             ui->tableWidget->item(newRowNum,1)->setSelected(true);
             ui->tableWidget->item(newRowNum,2)->setSelected(true);
 
-            ui->plainTextEdit->setPlainText(cmw->tList.taskFullText[cmw->currIndexNum].toString());
+            //ui->plainTextEdit->setPlainText(cmw->tList.taskFullText[cmw->currIndexNum].toString());
+            ui->plainTextEdit->document()->setHtml(cmw->tList.taskFullText[cmw->currIndexNum].toString());
             ui->plainTextEdit->setFocus();
 
             if (cmw->tList.completeFlag[cmw->currIndexNum] == "1")
@@ -356,7 +374,7 @@ void MainWindow::on_plainTextEdit_textChanged()
     qDebug() << "Функция on_plainTextEdit_textChanged запустилась (модель) " << cmw->currTaskNum;
     if (ui->tableWidget->rowCount() > 0 && ui->tableWidget->rowCount() > cmw->currTaskNum)
     {
-        cmw->tList.taskFullText[cmw->currIndexNum] = ui->plainTextEdit->toPlainText();
+        cmw->tList.taskFullText[cmw->currIndexNum] = ui->plainTextEdit->document()->toHtml();
         if (cmw->tList.completeFlag[cmw->currIndexNum] == "1")
         {
             ui->checkBoxDone->setChecked(true);
@@ -376,7 +394,8 @@ void MainWindow::on_tableWidget_cellClicked(int row, int column)
     cmw->saveDay();
     cmw->currTaskNum = row;
     cmw->currIndexNum = cmw->indexNumList[row].toString().toInt();
-    ui->plainTextEdit->setPlainText(cmw->tList.taskFullText[cmw->currIndexNum].toString());
+    //ui->plainTextEdit->setPlainText(cmw->tList.taskFullText[cmw->currIndexNum].toString());
+    ui->plainTextEdit->document()->setHtml(cmw->tList.taskFullText[cmw->currIndexNum].toString());
     ui->plainTextEdit->setFocus();
 
 }
@@ -776,3 +795,135 @@ void MainWindow::on_action_7_triggered()
     dialog_claculateProj *dcp = new dialog_claculateProj;\
     dcp->initWindow();
 }
+
+/* Обработка изменения шрифта в описании задачи */
+void MainWindow::on_comboBoxFontList_currentIndexChanged(const QString &arg1)
+{
+    qDebug() << "Функция MainWindow::on_comboBoxFontList_currentIndexChanged(const QString &arg1) запустилась";
+    checkCurrentFontParam();
+}
+
+/* Обработка изменения размера шрифта */
+void MainWindow::on_lineEditFontSize_editingFinished()
+{
+    qDebug() << "Функция MainWindow::on_lineEditFontSize_editingFinished() запустилась";
+    checkCurrentFontParam();
+}
+
+/* Обработка кнопки жирного текста */
+void MainWindow::on_toolButton_clicked()
+{
+    qDebug() << "Функция MainWindow::on_toolButton_clicked() запустилась";
+    if (ui->toolButton->isChecked() == true)
+    {
+        ui->toolButton->setChecked(true);
+    }
+    else
+    {
+        ui->toolButton->setChecked(false);
+    }
+    checkCurrentFontParam();
+}
+
+/* Обработка кнопки наклонного текста */
+void MainWindow::on_toolButtonNaklon_clicked()
+{
+    qDebug() << "Функция MainWindow::on_toolButtonNaklon_clicked() запустилась";
+
+    if (ui->toolButtonNaklon->isChecked() == true)
+    {
+        ui->toolButtonNaklon->setChecked(true);
+    }
+    else
+    {
+        ui->toolButtonNaklon->setChecked(false);
+    }
+    checkCurrentFontParam();
+}
+
+/* Обработка кнопки подчеркнутого текста */
+void MainWindow::on_toolButtonPodcherk_clicked()
+{
+    qDebug() << "Функция MainWindow::on_toolButtonNaklon_clicked() запустилась";
+    if (ui->toolButtonPodcherk->isChecked() == true)
+    {
+        ui->toolButtonPodcherk->setChecked(true);
+    }
+    else
+    {
+        ui->toolButtonPodcherk->setChecked(false);
+    }
+    checkCurrentFontParam();
+}
+
+/* Обработка кнопки зачеркнутого текста */
+void MainWindow::on_toolButtonZacherk_clicked()
+{
+    qDebug() << "Функция MainWindow::on_toolButtonNaklon_clicked() запустилась";
+    if (ui->toolButtonZacherk->isChecked() == true)
+    {
+        ui->toolButtonZacherk->setChecked(true);
+    }
+    else
+    {
+        ui->toolButtonZacherk->setChecked(false);
+    }
+    checkCurrentFontParam();
+}
+
+
+/* Обновление параметров шрифта в зависимости от панели */
+void MainWindow::checkCurrentFontParam()
+{
+    qDebug() << "Функция MainWindow::checkCurrentFontParam() запустилась";
+
+    QFont newFont;
+    QTextCharFormat textFormat;
+
+    /** Задаём семейство шрифтов */
+    newFont.setFamily(ui->comboBoxFontList->currentText());
+    /** Задаём размер шрифта */
+    newFont.setPixelSize(ui->lineEditFontSize->text().toInt());
+    /** Задаём выделение жирным */
+    if (ui->toolButton->isChecked() == true)
+    {
+        qDebug() << "Кнопка жирности нажата";
+        newFont.setBold(true);
+    }
+    else
+    {
+        newFont.setBold(false);
+    }
+    /** Задаём выделение наклоном */
+    if (ui->toolButtonNaklon->isChecked() == true)
+    {
+        newFont.setItalic(true);
+    }
+    else
+    {
+        newFont.setItalic(false);
+    }
+    /** Задаём выделение подчёркиванием */
+    if (ui->toolButtonPodcherk->isChecked() == true)
+    {
+        newFont.setUnderline(true);
+    }
+    else
+    {
+        newFont.setUnderline(false);
+    }
+    /** Задаём выделение зачёркиванием */
+    if (ui->toolButtonZacherk->isChecked() == true)
+    {
+        newFont.setStrikeOut(true);
+    }
+    else
+    {
+        newFont.setStrikeOut(false);
+    }
+    textFormat.setFont(newFont);
+    ui->plainTextEdit->mergeCurrentCharFormat(textFormat);
+}
+
+
+

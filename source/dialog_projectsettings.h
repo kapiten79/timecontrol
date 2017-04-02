@@ -41,6 +41,8 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_buttonBoxAcceptDecline_rejected();
+
 private:
     Ui::Dialog_projectSettings *ui;
 

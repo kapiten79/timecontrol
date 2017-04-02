@@ -123,3 +123,11 @@ void Dialog_projectSettings::on_pushButton_clicked()
     cps.workDir = new QString(dir);
 
 }
+
+/* Обработка нажатия кнопки отменя создания проекта */
+void Dialog_projectSettings::on_buttonBoxAcceptDecline_rejected()
+{
+    qDebug() << "Dialog_projectSettings::on_buttonBoxAcceptDecline_rejected() " << *cps.workDir;
+    //cps.workDir = "";
+
+}

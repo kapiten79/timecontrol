@@ -9,6 +9,8 @@
 #include <QObject>
 #include <QTimer>
 #include <QFileDialog>
+#include <QFontDatabase>
+#include <QTextCursor>
 #include <math.h>
 
 #include <dialog_createtask.h>
@@ -39,6 +41,8 @@ public:
     QString key2;
     QString platform;
     QDir mainDir;
+
+    QTextCursor textCursor;
 
     QString tempWorkDir; // Нужен на случай, если будет предпринята попытка открыть не верный каталог проекта и потребуется восстановить старый каталог
 public slots:
@@ -90,6 +94,20 @@ private slots:
     void on_action_8_triggered();
 
     void on_action_7_triggered();
+
+    void on_comboBoxFontList_currentIndexChanged(const QString &arg1);
+
+    void on_lineEditFontSize_editingFinished();
+
+    void on_toolButton_clicked();
+
+    void checkCurrentFontParam();
+
+    void on_toolButtonNaklon_clicked();
+
+    void on_toolButtonPodcherk_clicked();
+
+    void on_toolButtonZacherk_clicked();
 
 private:
     Ui::MainWindow          *ui         ;
