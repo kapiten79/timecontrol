@@ -28,7 +28,7 @@ void MainWindow::init_windowParams()
     cmw->model = this;
 
     /** Параметры главного окна */
-    this->setWindowTitle("Контроль времени.  v 1.00.016");
+    this->setWindowTitle("Контроль времени.  v 1.01.001");
 
     /** Получаем ширину поля таблицы и высчитываем ширину поля
      * заголовка в процентном соотношении */
@@ -927,3 +927,48 @@ void MainWindow::checkCurrentFontParam()
 
 
 
+/* Обработка события изменения позиции курсора в поле описания задачи */
+void MainWindow::on_plainTextEdit_cursorPositionChanged()
+{
+    qDebug() << "Функция MainWindow::on_plainTextEdit_cursorPositionChanged() запустилась ";
+
+    /** Определяем, выделен ли текст под курсором жирным */
+    if (ui->plainTextEdit->textCursor().charFormat().font().bold())
+    {
+        ui->toolButton->setChecked(true);
+    }
+    else
+    {
+        ui->toolButton->setChecked(false);
+    }
+
+    /** Определяем, выделен ли текст под курсором наклоном */
+    if (ui->plainTextEdit->textCursor().charFormat().font().italic())
+    {
+        ui->toolButtonNaklon->setChecked(true);
+    }
+    else
+    {
+        ui->toolButtonNaklon->setChecked(false);
+    }
+
+    /** Определяем, выделен ли текст под курсором подчёркиванием */
+    if (ui->plainTextEdit->textCursor().charFormat().font().underline())
+    {
+        ui->toolButtonPodcherk->setChecked(true);
+    }
+    else
+    {
+        ui->toolButtonPodcherk->setChecked(false);
+    }
+
+    /** Определяем, выделен ли текст под курсором зачеркиванием */
+    if (ui->plainTextEdit->textCursor().charFormat().font().strikeOut())
+    {
+        ui->toolButtonZacherk->setChecked(true);
+    }
+    else
+    {
+        ui->toolButtonZacherk->setChecked(false);
+    }
+}

@@ -109,6 +109,8 @@ private slots:
 
     void on_toolButtonZacherk_clicked();
 
+    void on_plainTextEdit_cursorPositionChanged();
+
 private:
     Ui::MainWindow          *ui         ;
     controller_mainWindow   *cmw = new controller_mainWindow         ;
