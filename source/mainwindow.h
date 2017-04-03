@@ -111,6 +111,12 @@ private slots:
 
     void on_plainTextEdit_cursorPositionChanged();
 
+    void on_toolButtonLeft_clicked();
+
+    void on_toolButtonCenter_clicked();
+
+    void on_toolButtonRight_clicked();
+
 private:
     Ui::MainWindow          *ui         ;
     controller_mainWindow   *cmw = new controller_mainWindow         ;

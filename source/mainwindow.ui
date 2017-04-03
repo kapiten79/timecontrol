@@ -332,7 +332,21 @@
       </item>
       <item row="2" column="6">
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="6">
+        <item row="0" column="1">
+         <widget class="QToolButton" name="toolButtonCenter">
+          <property name="text">
+           <string>C</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QToolButton" name="toolButtonRight">
+          <property name="text">
+           <string>R</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="8">
          <widget class="QToolButton" name="toolButtonZacherk">
           <property name="font">
            <font>
@@ -344,7 +358,7 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="5">
+        <item row="0" column="7">
          <widget class="QToolButton" name="toolButtonPodcherk">
           <property name="font">
            <font>
@@ -356,7 +370,7 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="4">
+        <item row="0" column="6">
          <widget class="QToolButton" name="toolButtonNaklon">
           <property name="font">
            <font>
@@ -368,7 +382,7 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="3">
+        <item row="0" column="5">
          <widget class="QToolButton" name="toolButton">
           <property name="font">
            <font>
@@ -378,6 +392,13 @@
           </property>
           <property name="text">
            <string>Кв</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QToolButton" name="toolButtonLeft">
+          <property name="text">
+           <string>L</string>
           </property>
          </widget>
         </item>

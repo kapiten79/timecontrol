@@ -28,7 +28,7 @@ void MainWindow::init_windowParams()
     cmw->model = this;
 
     /** Параметры главного окна */
-    this->setWindowTitle("Контроль времени.  v 1.01.001");
+    this->setWindowTitle("Контроль времени.  v 1.01.002");
 
     /** Получаем ширину поля таблицы и высчитываем ширину поля
      * заголовка в процентном соотношении */
@@ -258,6 +258,13 @@ void MainWindow::reloadTaskList()
             /** Запрещаем любые действия с полями времени и стоимости работ  */
             timerCol->setFlags(Qt::NoItemFlags);
             priceCol->setFlags(Qt::NoItemFlags);
+
+            ui->toolButton          ->setChecked(false);
+            ui->toolButtonNaklon    ->setChecked(false);
+            ui->toolButtonPodcherk  ->setChecked(false);
+            ui->toolButtonZacherk   ->setChecked(false);
+            ui->comboBoxFontList    ->setCurrentText("Arial");
+            ui->lineEditFontSize    ->setText("14");
 
             ui->tableWidget->setItem(newRowNum,0,taskNameCol        );
             ui->tableWidget->setItem(newRowNum,1,timerCol           );
@@ -971,4 +978,28 @@ void MainWindow::on_plainTextEdit_cursorPositionChanged()
     {
         ui->toolButtonZacherk->setChecked(false);
     }
+}
+
+/* Обработка нажатия кнопки выравнивания по левому краю */
+void MainWindow::on_toolButtonLeft_clicked()
+{
+    qDebug() << "Функция MainWindow::on_toolButtonLeft_clicked() запустилась ";
+    QTextOption op(Qt::AlignLeft);
+    ui->plainTextEdit->document()->setDefaultTextOption(op);
+}
+
+/* Обработка нажатия кнопки выравнивания по центру */
+void MainWindow::on_toolButtonCenter_clicked()
+{
+    qDebug() << "Функция MainWindow::on_toolButtonCenter_clicked() запустилась ";
+    QTextOption op(Qt::AlignCenter);
+    ui->plainTextEdit->document()->setDefaultTextOption(op);
+}
+
+/* Обработка нажатия кнопки выравнивания по правому краю */
+void MainWindow::on_toolButtonRight_clicked()
+{
+    qDebug() << "Функция MainWindow::on_toolButtonRight_clicked() запустилась ";
+    QTextOption op(Qt::AlignRight);
+    ui->plainTextEdit->document()->setDefaultTextOption(op);
 }
