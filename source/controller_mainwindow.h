@@ -12,6 +12,11 @@
 #include <dialog_viewcalllist.h>
 #include <dialog_find.h>
 
+#ifdef linux
+    #include <cmath>
+    #include <ctgmath>
+#endif
+
 class controller_mainWindow: public controller_main
 {
     Q_OBJECT

@@ -17,7 +17,7 @@ win32 {
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = TimeControl
+TARGET = TimeControl_v2_00_001
 TEMPLATE = app
 
 RC_FILE = w_time_control_qt.rc

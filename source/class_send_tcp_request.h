@@ -9,7 +9,7 @@
 #include <QtNetwork/QTcpSocket>
 #include <QtNetwork/QAbstractSocket>
 #include <QDebug>
-#include <QHostAddress>
+//#include <QHostAddress>
 #include <sstream>
 #include <QSettings>
 #include <QFile>
