@@ -2,20 +2,55 @@
 
 controller_main::controller_main()
 {
-    sdb = QSqlDatabase::addDatabase("QSQLITE");
-    sdb.setDatabaseName("timeControl.db");
+    /** Проверяем, создавалась ли ранее база данных для этого экземпляра программы. */
+    if (!sdb.contains("timeControl.db"))
+    {
+        sdb = QSqlDatabase::addDatabase("QSQLITE");
+        sdb.setDatabaseName("timeControl.db");
+        /** Пытаемся открыть базу данных */
 
-    if (!sdb.open())
-    {
-        qDebug() << "База данных не открылась" ;
-    }
-    else
-    {
-        qDebug() << "База данных открылась" ;
+        if (!sdb.open())
+        {
+            qDebug() << "База данных не открылась" ;
+        }
+        else
+        {
+            qDebug() << "База данных открылась" ;
+        }
+
+        /** Проверяем, есть ли в базе данных структура или она создана впервые */
+        query = "select count(type) from sqlite_master where type = 'table'";
+        result = sdb.exec(query);
+        int tblCount = 0;
+        while (result.next())
+        {
+            tblCount = result.value(0).toString().toInt();
+        }
+        /** Если таблиц в базе данных нет, создаём базу данных */
+        if (tblCount <= 0)
+        {
+            qDebug() << "База данных не создана. Генерируем пустую базу данных.";
+            query = "CREATE TABLE dict_project   (id_prj int PRIMARY KEY, "
+                    "name           text, "
+                    "description    text, "
+                    "hour_price     int, "
+                    "directory      text )";
+             result = sdb.exec(query);
+             qDebug() << "Результат создания базы данных " << result.lastError().text();
+        }
+        else
+        {
+            qDebug() << "База данных уже существует. Загружаем информацию о проктах и настройках программы...";
+        }
         sdb.close();
     }
 }
 
+/* Реализация запроса к SQLite */
+void controller_main::db_select(QString query)
+{
+
+}
 
 /********************** ОБРАБОТКА ФАЙЛОВ РАБОЧЕГИ ДНЯ ********************************/
 
@@ -343,11 +378,7 @@ void controller_main::licenseControl()
 
 }
 
-/* Реализация запроса к SQLite */
-void controller_main::db_select(QString query)
-{
 
-}
 
 
 

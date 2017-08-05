@@ -27,8 +27,9 @@ class controller_main : public QObject
 public:
     explicit controller_main();
 
-    QSqlDatabase sdb;
-
+    QSqlDatabase    sdb     ;
+    QString         query   ;
+    QSqlQuery       result  ;
 
     /* Переменные дат и времени */
 
