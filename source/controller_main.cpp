@@ -2,7 +2,18 @@
 
 controller_main::controller_main()
 {
+    sdb = QSqlDatabase::addDatabase("QSQLITE");
+    sdb.setDatabaseName("timeControl.db");
 
+    if (!sdb.open())
+    {
+        qDebug() << "База данных не открылась" ;
+    }
+    else
+    {
+        qDebug() << "База данных открылась" ;
+        sdb.close();
+    }
 }
 
 
@@ -327,9 +338,17 @@ void controller_main::writeCallToJSON()
 void controller_main::licenseControl()
 {
     qDebug() << "Функция controller_main::licenseControl() запустилась. (Контроллер)" ;
-    query = "lic";
-    select();
+//    query = "lic";
+//    select();
 
 }
+
+/* Реализация запроса к SQLite */
+void controller_main::db_select(QString query)
+{
+
+}
+
+
 
 

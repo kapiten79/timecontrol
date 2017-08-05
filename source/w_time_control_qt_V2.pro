@@ -3,7 +3,7 @@
 # Project created by QtCreator 2016-05-16T20:13:04
 #
 #-------------------------------------------------
-QT     += core gui
+QT     += core gui sql
 QT     += network
 CONFIG += c++11
 CONFIG += qt plugin
@@ -44,7 +44,6 @@ SOURCES += main.cpp\
     dialog_reporttask.cpp \
     controller_reporttask.cpp \
     controller_exportcalc.cpp \
-    class_send_tcp_request.cpp \
     dialog_claculateproj.cpp
 
 HEADERS  += mainwindow.h \
@@ -67,7 +66,6 @@ HEADERS  += mainwindow.h \
     dialog_reporttask.h \
     controller_reporttask.h \
     controller_exportcalc.h \
-    class_send_tcp_request.h \
     dialog_claculateproj.h
 
 FORMS    += mainwindow.ui \

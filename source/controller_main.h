@@ -4,26 +4,30 @@
 #include <QObject>
 #include <QVariantList>
 #include <QDebug>
-
-#include <QDir>
-#include <QFile>
-#include <QFileInfo>
-#include <QDataStream>
-
 #include <QDateTime>
 #include <QDate>
 #include <QTime>
 
+#include <QtSql/QtSql>
+#include <QtSql/QSqlDatabase>
+
+/** Блок устарел */
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QDataStream>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
 
-#include <class_send_tcp_request.h>
 
-class controller_main : public class_send_tcp_request
+
+class controller_main : public QObject
 {
 public:
     explicit controller_main();
+
+    QSqlDatabase sdb;
 
 
     /* Переменные дат и времени */
@@ -107,6 +111,8 @@ public slots:
     void writeCallToJSON()  ;
 
     void licenseControl()   ;
+
+    void db_select(QString query);
 
 private slots:
 
