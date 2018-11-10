@@ -113,7 +113,7 @@ public slots:
 
     void licenseControl()   ;
 
-    void db_select(QString query);
+    QString getLastIndex (QString table);
 
 private slots:
 

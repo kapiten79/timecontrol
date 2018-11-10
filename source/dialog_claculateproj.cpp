@@ -88,7 +88,7 @@ void dialog_claculateProj::on_pushButtonAddSubTask_clicked()
 }
 
 /* Обработка выбора элемента дерева */
-void dialog_claculateProj::on_treeWidgetProject_clicked(const QModelIndex &index)
+void dialog_claculateProj::on_treeWidgetProject_clicked(const QModelIndex &)
 {
     qDebug() << "Функция dialog_claculateProj::on_treeWidgetProject_clicked(const QModelIndex &index) запустилась";
     QString text = ui->treeWidgetProject->currentItem()->text(0);

@@ -67,16 +67,16 @@ public slots:
     void addTask                (QString taskName)  ;
     void saveDay                ()                  ;
     //void setWorkDir             (QString workDir)   ;
-    void open_projSettings      (bool tr)           ;
+    void open_projSettings      (bool)           ;
     void setProjParams          ()                  ;
     void setTodayDateTime       ()                  ;
-    void open_createCallDialog  (bool tr)           ;
-    void open_viewCallDialog    (bool tr)           ;
+    void open_createCallDialog  (bool)           ;
+    void open_viewCallDialog    (bool)           ;
     void open_dialogFind        (bool tr)           ;
     void create_project         ()                  ;
     void move_task              ()                  ;
     void open_confirmDialog     (QString text)      ;
-    void save_project           (bool tr)           ;
+    void save_project           (bool)           ;
     void open_project           ()                  ;
     void close_project          (int index)         ;
 

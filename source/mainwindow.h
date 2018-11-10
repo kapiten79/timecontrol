@@ -34,7 +34,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
     QString key1;
@@ -45,35 +45,43 @@ public:
     QTextCursor textCursor;
 
     QString tempWorkDir; // Нужен на случай, если будет предпринята попытка открыть не верный каталог проекта и потребуется восстановить старый каталог
+
+private:
+    QAction *addToolbarAction(QString iconUrl, QString descriptionText, bool enabled = false);
+
+    const int timeColumnWidth   = 144;
+    const int priceColumnWidth  = 160;
+
+    const int taskColumn    = 0;
+    const int timeColumn    = 1;
+    const int priceColumn   = 2;
+
 public slots:
     void reloadTaskList     ();
-    void init_windowParams  ();
     void open_project       ();
 private slots:
-    void on_pushButton_clicked()                            ;
+    void on_buttonNewTask_clicked()                            ;
     void setTaskTime()                                      ;
     void setTaskPrice()                                     ;
     void setDayTime()                                       ;
     void setDayPrice()                                      ;
     void setClearCalendar()                                 ;
     void setDayColor(QDate editedDate)                      ;
-    void on_pushButton_2_clicked()                          ;
+    void on_buttonStartTaskTimer_clicked()                          ;
     void removeCurrTask()                                   ;
-    void on_pushButton_3_clicked()                          ;
+    void on_buttonStopTaskTimer_clicked()                          ;
     void on_plainTextEdit_textChanged()                     ;
-    void on_tableWidget_cellClicked(int row, int column)    ;
-    void on_pushButton_4_clicked()                          ;
-    void set_nextDay(bool tr)                               ;
+    void on_tableForTasks_cellClicked(int row, int)    ;
+    void on_buttonDeleteTask_clicked()                          ;
+    void set_nextDay(bool)                               ;
 
     void on_calendarWidget_clicked(const QDate &date);
-
-    void resizeEvent(QResizeEvent* event);
 
     void on_projectSettings_triggered();
 
     void on_tabWidget_tabBarClicked(int index);
 
-    void on_tabWidget_tabBarDoubleClicked(int index);
+    void on_tabWidget_tabBarDoubleClicked(int);
 
     void on_action_triggered();
 

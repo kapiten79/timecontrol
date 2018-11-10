@@ -55,7 +55,7 @@ public slots:
 private slots:
     void on_pushButtonAddTask_clicked();
     void on_pushButtonAddSubTask_clicked();
-    void on_treeWidgetProject_clicked(const QModelIndex &index);
+    void on_treeWidgetProject_clicked(const QModelIndex &);
     void on_lineEditCurrTask_textEdited(const QString &arg1);
 };
 

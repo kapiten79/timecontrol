@@ -80,7 +80,7 @@ void Dialog_viewCallList::loadCallList()
 }
 
 /* Выбор звонка из списка и отображение его текста */
-void Dialog_viewCallList::on_tableWidget_cellClicked(int row, int column)
+void Dialog_viewCallList::on_tableWidget_cellClicked(int row, int )
 {
     qDebug() << "Функция loadCallList запустилась (модель)";
 
@@ -100,7 +100,7 @@ void Dialog_viewCallList::on_tableWidget_cellClicked(int row, int column)
 }
 
 /* Извнение списка звонков при выборе другой даты в календаре */
-void Dialog_viewCallList::on_calendarWidget_clicked(const QDate &date)
+void Dialog_viewCallList::on_calendarWidget_clicked(const QDate &)
 {
     qDebug() << "Функция Dialog_viewCallList::on_calendarWidget_clicked запустилась (модель)";
     loadCallList();

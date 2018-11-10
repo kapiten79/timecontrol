@@ -1,29 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QKeySequence>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi         (this)  ;
-
-}
-
-MainWindow::~MainWindow()
-{
-    cmw->saveDay();
-    cmw->dps->close();
-    cmw->dct->close();
-    cmw->di->close();
-
-    delete ui;
-}
-
-/* Инициализируем параметры окна */
-void MainWindow::init_windowParams()
-{
-    qDebug() << "Функция init_windowParams запустилась (модель)";
-
     this->showMaximized();
     cmw->model = this;
 
@@ -34,104 +17,56 @@ void MainWindow::init_windowParams()
      * заголовка в процентном соотношении */
 
     int fullWidth, nameWidth;
-    fullWidth = ui->tableWidget->width();
-    nameWidth = fullWidth - 144 - 160 - 18;
+    fullWidth = ui->tableForTasks->width();
+    nameWidth = fullWidth - timeColumnWidth - priceColumnWidth;
 
     /** Ширина столбцов */
-    ui->tableWidget->setColumnWidth(0,nameWidth);
-    ui->tableWidget->setColumnWidth(1,144);
-    ui->tableWidget->setColumnWidth(2,160);
-
+    ui->tableForTasks->setColumnWidth(0,nameWidth);
+    ui->tableForTasks->setColumnWidth(1,timeColumnWidth);
+    ui->tableForTasks->setColumnWidth(2,priceColumnWidth);
+    ui->tableForTasks->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->tableForTasks->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Fixed);
+    ui->tableForTasks->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Fixed);
 
     /** Добавление иконки создания проекта */
-    const QIcon newProjIcon = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/new_proj.png"))   ;
-    QAction     *newProjAct = new QAction(newProjIcon, tr("&Создание нового проекта..."), this)                     ;
-    newProjAct->setShortcuts(QKeySequence::Open)                                                                    ;
-    newProjAct->setStatusTip(tr("Создание нового проекта"))                                                         ;
-
-    connect(newProjAct, &QAction::triggered, cmw, &controller_mainWindow::create_project);
-    //fileMenu->addAction(newProjAct);
-    ui->mainToolBar->addAction(newProjAct);
+    QAction *newProjAct = addToolbarAction(":/ico/png_ico/new_proj.png","Создать проект",true) ;
+    connect(newProjAct, &QAction::triggered, cmw, &controller_mainWindow::create_project) ;
 
     /** Добавление иконки немедленного сохранения информации */
-    const QIcon saveIcon    = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/save_all.png"))   ;
-    QAction *saveAct        = new QAction(saveIcon, tr("&Сохранить все данные..."), this)                           ;
-    saveAct->setShortcuts(QKeySequence::Open); //гоячая клавиша
-    saveAct->setStatusTip(tr("Сохранить всё"));
-    saveAct->setEnabled(false);
+    QAction *saveAct = addToolbarAction(":/ico/png_ico/save_all.png","Сохранить все данные...") ;
     connect(saveAct, &QAction::triggered, cmw, &controller_mainWindow::save_project);
-    //fileMenu->addAction(newProjAct);
-    ui->mainToolBar->addAction(saveAct);
 
     /** Добавление иконки открытия настроек проекта */
-
-    const QIcon settingsProjIcon = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/settings_proj.png"));
-    QAction *settingsProjAct = new QAction(settingsProjIcon, tr("&Редактирование параметров проекта..."), this);
-    settingsProjAct->setShortcuts(QKeySequence::Open);
-    settingsProjAct->setStatusTip(tr("Редактирование параметров проекта"));
-    settingsProjAct->setEnabled(false);
+    QAction *settingsProjAct = addToolbarAction(":/ico/png_ico/settings_proj.png","Редактирование параметров проекта...") ;
     connect(settingsProjAct, &QAction::triggered, cmw, &controller_mainWindow::open_projSettings);
-    //fileMenu->addAction(newProjAct);
-    ui->mainToolBar->addAction(settingsProjAct);
 
     ui->mainToolBar->addSeparator();
 
     /** Добавление иконки нового звонка */
-    const QIcon newCallIcon = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/new_call.png"));
-    QAction *newCallAct = new QAction(newCallIcon, tr("&Регистрация нового звонка..."), this);
-    newCallAct->setShortcuts(QKeySequence::Open);
-    newCallAct->setStatusTip(tr("Регистрация нового звонка"));
-    newCallAct->setEnabled(false);
+    QAction *newCallAct = addToolbarAction(":/ico/png_ico/new_call.png","Регистрация нового звонка...") ;
     connect(newCallAct, &QAction::triggered, cmw, &controller_mainWindow::open_createCallDialog);
-    //fileMenu->addAction(newProjAct);
-    ui->mainToolBar->addAction(newCallAct);
 
     /** Добавление иконки истории звонков */
-    const QIcon historyCallIcon = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/history_call.PNG"));
-    QAction *historyCallAct = new QAction(historyCallIcon, tr("&История звонков..."), this);
-    historyCallAct->setShortcuts(QKeySequence::Open);
-    historyCallAct->setStatusTip(tr("История звонков"));
-    historyCallAct->setEnabled(false);
+    QAction *historyCallAct = addToolbarAction(":/ico/png_ico/history_call.png","История звонков...") ;
     connect(historyCallAct, &QAction::triggered, cmw, &controller_mainWindow::open_viewCallDialog);
-    //fileMenu->addAction(newProjAct);
-    ui->mainToolBar->addAction(historyCallAct);
 
     ui->mainToolBar->addSeparator();
 
     /** Добавление иконки поиска */
-    const QIcon findIcon = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/find.png"));
-    QAction *findAct = new QAction(findIcon, tr("&Глобавльный поиск..."), this);
-    findAct->setShortcuts(QKeySequence::Open);
-    findAct->setStatusTip(tr("Глобавльный поиск"));
-    findAct->setEnabled(false);
+    QAction *findAct = addToolbarAction(":/ico/png_ico/find.png","Глобавльный поиск...") ;
     connect(findAct, &QAction::triggered, cmw, &controller_mainWindow::open_dialogFind);
-    //fileMenu->addAction(newProjAct);
-    ui->mainToolBar->addAction(findAct);
 
     ui->mainToolBar->addSeparator();
 
     /** Добавление иконки переноса задачи на другую дату */
-    const QIcon perenosIcon = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/perenos.png"));
-    QAction *perenosAct = new QAction(perenosIcon, tr("&Перенести задачу на другую дату..."), this);
-    perenosAct->setShortcuts(QKeySequence::Open);
-    perenosAct->setStatusTip(tr("Перенос задачи"));
-    perenosAct->setEnabled(false);
+    QAction *perenosAct = addToolbarAction(":/ico/png_ico/perenos.png","Перенести задачу на другую дату...") ;
     connect(perenosAct, &QAction::triggered, this, &MainWindow::set_nextDay);
-    //fileMenu->addAction(newProjAct);
-    ui->mainToolBar->addAction(perenosAct);
 
     /** Описание иконок кнопок задач */
-    const QIcon newTaskIcon = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/new_task.png"));
-    ui->pushButton->setIcon(newTaskIcon);
-
-    const QIcon playTaskIcon = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/play.png"));
-    ui->pushButton_2->setIcon(playTaskIcon);
-
-    const QIcon stopTaskIcon = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/png_ico/stop.png"));
-    ui->pushButton_3->setIcon(stopTaskIcon);
-
-    const QIcon deleteTaskIcon = QIcon::fromTheme("project-new", QIcon(":/ico/png_ico/png_ico/delete.png"));
-    ui->pushButton_4->setIcon(deleteTaskIcon);
+    ui->buttonNewTask->setIcon(QIcon(":/ico/png_ico/new_task.png"));
+    ui->buttonStartTaskTimer->setIcon(QIcon(":/ico/png_ico/play.png"));
+    ui->buttonStopTaskTimer->setIcon(QIcon(":/ico/png_ico/stop.png"));
+    ui->buttonDeleteTask->setIcon(QIcon(":/ico/png_ico/delete.png"));
 
     /** Стиль календаря */
     ui->calendarWidget->setGridVisible(true);
@@ -157,69 +92,65 @@ void MainWindow::init_windowParams()
     setClearCalendar();
 }
 
-/* Изменение размеров полей таблицы при изменении размеров окна */
-void MainWindow::resizeEvent(QResizeEvent* event)
+MainWindow::~MainWindow()
 {
-    qDebug() << "Функция resizeEvent запустилась (модель)";
+    cmw->saveDay();
+    cmw->dps->close();
+    cmw->dct->close();
+    cmw->di->close();
 
-    QMainWindow::resizeEvent(event);
-
-    /** Получаем ширину поля таблицы и высчитываем ширину поля
-     * заголовка в процентном соотношении */
-
-    int fullWidth, nameWidth;
-    fullWidth = ui->tableWidget->width();
-    nameWidth = fullWidth - 144 - 160-18;
-
-    /** Ширина столбцов */
-    ui->tableWidget->setColumnWidth(0,nameWidth);
-    ui->tableWidget->setColumnWidth(1,144);
-    ui->tableWidget->setColumnWidth(2,160);
+    delete ui;
 }
 
-/* Нажатие кнопки создания новой задачи */
-void MainWindow::on_pushButton_clicked()
+/*!
+ * \brief MainWindow::addToolbarAction - добавление иконок toolbar
+ * \param iconUrl - URL иконки
+ * \param descriptionText - текст описания действия (подсказка)
+ * \param enabled - значение setEnabled по умолчанию для данной иконки
+ * \return
+ */
+QAction* MainWindow::addToolbarAction(QString iconUrl, QString descriptionText, bool enabled)
 {
-    qDebug() << "Функция MainWindow::on_pushButton_clicked() запустилась (модель)";
+    const QIcon newIcon = QIcon(iconUrl)                               ;
+    QAction     *newAct = new QAction(newIcon, descriptionText, this)  ;
+    ui->mainToolBar->addAction(newAct)                                 ;
+    newAct->setEnabled(enabled);
+    return newAct;
+}
 
-    if (ui->tabWidget->count() > 1)
-    {
-        if (ui->tableWidget->rowCount() > 0)cmw->saveDay();
-
+/*!
+ * \brief MainWindow::on_pushButton_clicked - обработка нажатия кнопки новой задачи
+ */
+void MainWindow::on_buttonNewTask_clicked()
+{
+    if (ui->tabWidget->count() > 1) {
+        if (ui->tableForTasks->rowCount() > 0)
+            cmw->saveDay();
         cmw->open_createTaskDialog();
     }
-
 }
 
-/* Добавление новой записи о задаче */
+/*!
+ * \brief MainWindow::reloadTaskList - добавление новой записи о задаче
+ */
 void MainWindow::reloadTaskList()
 {
-    qDebug() << "Функция reloadTaskList запустилась (модель)";
-
     /** Перебираем задачи и заполняем строки таблицы.
         Так как список задач обновляется на уровне глобальных переменных,
         каждый раз чистим таблицу перед заполнением */
 
-    int rowCount = ui->tableWidget->rowCount();
-    for (int i=0; i<rowCount; i++)
-    {
-        ui->tableWidget->removeRow(0);
-    }
+    ui->tableForTasks->setRowCount(0);
 
     for (int i=0; i<cmw->tList.taskName.count(); i++)
     {
-        //qDebug() << cmw->tList.taskDate[i].toString();
-
         if (cmw->tList.taskDate[i].toString() == cmw->calendarDate.toString("dd_MM_yyyy"))
         {
             /** Сохранение "Начальных" данных о задаче в файл */
             /** Добавление новой строки для отображения задачи */
-            int newRowNum = ui->tableWidget->rowCount();
-
-            ui->tableWidget->insertRow(newRowNum);
+            int newRowNum = ui->tableForTasks->rowCount();
+            ui->tableForTasks->insertRow(newRowNum);
 
             /** Запрещаем редактирование времени и цены задачи */
-
             QTableWidgetItem * taskNameCol              = new QTableWidgetItem(cmw->tList.taskName[i].toString() );
             QTableWidgetItem * timerCol                 = new QTableWidgetItem(cmw->tList.taskTime[i].toString() );
             QTableWidgetItem * priceCol                 = new QTableWidgetItem(cmw->tList.taskPrice[i].toString());
@@ -228,7 +159,6 @@ void MainWindow::reloadTaskList()
             {
                 /** Визуальное отображение только что созданной задачи */
                 QColor indColor(255, 117, 24);
-                //taskNameCol->setBackgroundColor(indColor);
                 timerCol->setBackgroundColor(indColor);
                 priceCol->setBackgroundColor(indColor);
             }
@@ -236,7 +166,6 @@ void MainWindow::reloadTaskList()
             {
                 /** Визуальное отображение начала работы над задачей */
                 QColor indColor("lightyellow");
-                //taskNameCol->setBackgroundColor(indColor);
                 timerCol->setBackgroundColor(indColor);
                 priceCol->setBackgroundColor(indColor);
             }
@@ -244,10 +173,8 @@ void MainWindow::reloadTaskList()
             if (cmw->tList.completeFlag[i].toString() == "1")
             {
                 QColor indColor("lightgreen");
-                //taskNameCol->setBackgroundColor(indColor);
                 timerCol->setBackgroundColor(indColor);
                 priceCol->setBackgroundColor(indColor);
-
                 ui->checkBoxDone->setChecked(true);
             }
             else
@@ -266,182 +193,149 @@ void MainWindow::reloadTaskList()
             ui->comboBoxFontList    ->setCurrentText("Arial");
             ui->lineEditFontSize    ->setText("14");
 
-            ui->tableWidget->setItem(newRowNum,0,taskNameCol        );
-            ui->tableWidget->setItem(newRowNum,1,timerCol           );
-            ui->tableWidget->setItem(newRowNum,2,priceCol           );
+            ui->tableForTasks->setItem(newRowNum,taskColumn   ,taskNameCol        );
+            ui->tableForTasks->setItem(newRowNum,timeColumn   ,timerCol           );
+            ui->tableForTasks->setItem(newRowNum,priceColumn  ,priceCol           );
 
-            for (int i=0; i<ui->tableWidget->rowCount(); i++)
+            QList<QTableWidgetItem *> selectedItems = ui->tableForTasks->selectedItems();
+            for (int i=0; i<selectedItems.count(); i++)
             {
-                ui->tableWidget->item(i,0)->setSelected(false);
-                ui->tableWidget->item(i,1)->setSelected(false);
-                ui->tableWidget->item(i,2)->setSelected(false);
+                selectedItems[i]->setSelected(false);
+                selectedItems[i]->setSelected(false);
+                selectedItems[i]->setSelected(false);
             }
 
-            ui->tableWidget->item(newRowNum,0)->setSelected(true);
-            ui->tableWidget->item(newRowNum,1)->setSelected(true);
-            ui->tableWidget->item(newRowNum,2)->setSelected(true);
+            ui->tableForTasks->item(newRowNum,taskColumn)->setSelected(true);
+            ui->tableForTasks->item(newRowNum,timeColumn)->setSelected(true);
+            ui->tableForTasks->item(newRowNum,priceColumn)->setSelected(true);
 
-            //ui->plainTextEdit->setPlainText(cmw->tList.taskFullText[cmw->currIndexNum].toString());
             ui->plainTextEdit->document()->setHtml(cmw->tList.taskFullText[cmw->currIndexNum].toString());
             ui->plainTextEdit->setFocus();
 
             if (cmw->tList.completeFlag[cmw->currIndexNum] == "1")
-            {
                 ui->checkBoxDone->setChecked(true);
-            }
         }
-        if(ui->tableWidget->rowCount() > 0)
-        {
-            ui->pushButton_2->setEnabled(true);
-            ui->pushButton_4->setEnabled(true);
-        }
-        else
-        {
-            ui->pushButton_2->setEnabled(false);
-            ui->pushButton_3->setEnabled(false);
-            ui->pushButton_4->setEnabled(false);
-        }
+
+        ui->buttonStartTaskTimer->setEnabled(ui->tableForTasks->rowCount());
+        ui->buttonDeleteTask->setEnabled(ui->tableForTasks->rowCount());
+
+        if(!ui->tableForTasks->rowCount())
+            ui->buttonStopTaskTimer->setEnabled(false);
     }
 }
 
-
-/* Запускаем таймер */
-void MainWindow::on_pushButton_2_clicked()
+/*!
+ * \brief MainWindow::on_buttonStartTaskTimer_clicked - запуск таймера задачи
+ */
+void MainWindow::on_buttonStartTaskTimer_clicked()
 {
-    qDebug() << "Функция on_pushButton_2_clicked запустилась (модель)";
     cmw->stopTaskTimer();
 
     /** Визуальное отображение начала работы над задачей */
     int currRow = cmw->currTaskNum;
-    qDebug() << currRow;
     QColor indColor("lightyellow");
-    ui->tableWidget->item(currRow,0)->setBackgroundColor(indColor);
-    ui->tableWidget->item(currRow,1)->setBackgroundColor(indColor);
-    ui->tableWidget->item(currRow,2)->setBackgroundColor(indColor);
+    ui->tableForTasks->item(currRow,taskColumn)->setBackgroundColor(indColor);
+    ui->tableForTasks->item(currRow,timeColumn)->setBackgroundColor(indColor);
+    ui->tableForTasks->item(currRow,priceColumn)->setBackgroundColor(indColor);
 
-    if (ui->tableWidget->rowCount() > 0)
+    if (ui->tableForTasks->rowCount())
     {
         /** Определяем значения таймера в выделенной строке */
-        qDebug() << "Количесво записей времени задачи " << cmw->tList.taskTime.count() << " Очередной номер " << cmw->currIndexNum;
-        cmw->tList.taskTime[cmw->currIndexNum] = QVariant(ui->tableWidget->item(cmw->currTaskNum,1)->text());
+        cmw->tList.taskTime[cmw->currIndexNum] = QVariant(ui->tableForTasks->item(cmw->currTaskNum,1)->text());
         cmw->startTaskTimer();
 
         /** Делаем кнопку запустить не доступной, а кнопку остановить доступной */
-        ui->pushButton_2->setEnabled(false);
-        ui->pushButton_3->setEnabled(true);
+        ui->buttonStartTaskTimer->setEnabled(false);
+        ui->buttonStopTaskTimer->setEnabled(true);
     }
-
 }
 
 /* Выводим значения времени */
 void MainWindow::setTaskTime()
 {
-    qDebug() << "Функция setTaskTime запустилась (модель)";
-    ui->tableWidget->item(cmw->currTaskNum,1)->setText(cmw->tList.taskTime[cmw->currIndexNum].toString());
+    ui->tableForTasks->item(cmw->currTaskNum,timeColumn)->setText(cmw->tList.taskTime[cmw->currIndexNum].toString());
 }
 /* Отображение стоимости задачи */
 void MainWindow::setTaskPrice()
 {
-    qDebug() << "Функция setTaskPrice запустилась (модель)";
-    ui->tableWidget->item(cmw->currTaskNum,2)->setText(cmw->tList.taskPrice[cmw->currIndexNum].toString());
+    ui->tableForTasks->item(cmw->currTaskNum,priceColumn)->setText(cmw->tList.taskPrice[cmw->currIndexNum].toString());
 }
 
 /* Подсчёт суммарного времени для всех задач */
 void MainWindow::setDayTime()
 {
-    qDebug() << "Функция setDayTime запустилась (модель)";
-    ui->label_4->setText(cmw->allTime);
-    ui->label_8->setText(cmw->dayTime);
+    ui->labelTotalTime->setText(cmw->allTime);
+    ui->labelDayTime->setText(cmw->dayTime);
 }
 
 /* Подсчёт суммарной стоимости всех задач */
 void MainWindow::setDayPrice()
 {
-    qDebug() << "Функция setDayPrice запустилась (модель)";
-    ui->label_5->setText(cmw->allPrice);
-    ui->label_9->setText(cmw->dayPrice);
+    ui->labelTotalPrice->setText(cmw->allPrice);
+    ui->labelDayPrice->setText(cmw->dayPrice);
 }
 
 /* Остановка текущего таймера */
-void MainWindow::on_pushButton_3_clicked()
+void MainWindow::on_buttonStopTaskTimer_clicked()
 {
-    qDebug() << "Функция on_pushButton_3_clicked запустилась (модель)";
-    if (ui->tableWidget->rowCount() > 0)
+    if (ui->tableForTasks->rowCount())
     {
         cmw->stopTaskTimer();
         /** После остановки таймера задачи делаем кнопку "Запустить" доступной, а "Остановить" не доступной */
-        ui->pushButton_2->setEnabled(true);
-        ui->pushButton_3->setEnabled(false);
+        ui->buttonStartTaskTimer->setEnabled(true);
+        ui->buttonStopTaskTimer->setEnabled(false);
     }
 }
 
 /* Изменение текста подробного описания задачи */
 void MainWindow::on_plainTextEdit_textChanged()
 {
-    qDebug() << "Функция on_plainTextEdit_textChanged запустилась (модель) " << cmw->currTaskNum;
-    if (ui->tableWidget->rowCount() > 0 && ui->tableWidget->rowCount() > cmw->currTaskNum)
+    if (ui->tableForTasks->rowCount() > 0 && ui->tableForTasks->rowCount() > cmw->currTaskNum)
     {
         cmw->tList.taskFullText[cmw->currIndexNum] = ui->plainTextEdit->document()->toHtml();
         if (cmw->tList.completeFlag[cmw->currIndexNum] == "1")
-        {
             ui->checkBoxDone->setChecked(true);
-        }
         else
-        {
             ui->checkBoxDone->setChecked(false);
-        }
     }
 }
 
 
 /* Действия при выборе строки в таблице */
-void MainWindow::on_tableWidget_cellClicked(int row, int column)
+void MainWindow::on_tableForTasks_cellClicked(int row, int)
 {
-    qDebug() << "Функция on_tableWidget_cellClicked запустилась (модель)";
     cmw->saveDay();
     cmw->currTaskNum = row;
     cmw->currIndexNum = cmw->indexNumList[row].toString().toInt();
-    //ui->plainTextEdit->setPlainText(cmw->tList.taskFullText[cmw->currIndexNum].toString());
     ui->plainTextEdit->document()->setHtml(cmw->tList.taskFullText[cmw->currIndexNum].toString());
     ui->plainTextEdit->setFocus();
-
 }
 
 /* Нажатие кнопки "Удалить" */
-void MainWindow::on_pushButton_4_clicked()
+void MainWindow::on_buttonDeleteTask_clicked()
 {
-    qDebug() << "Функция on_pushButton_4_clicked запустилась (модель)";
-    if (ui->tableWidget->rowCount() > 0)
-    {
+    if (ui->tableForTasks->rowCount())
         cmw->open_removeTaskDialog();
-    }
 }
 /* Удаление задачи из интерфейса*/
 void MainWindow::removeCurrTask()
 {
-    qDebug() << "Функция removeCurrTask запустилась (модель)";
-    ui->tableWidget->removeRow(cmw->currTaskNum);
+    ui->tableForTasks->removeRow(cmw->currTaskNum);
     ui->plainTextEdit->clear    () ;
-    if(ui->tableWidget->rowCount() > 0)
+
+    ui->buttonStartTaskTimer->setEnabled(ui->tableForTasks->rowCount());
+    ui->buttonDeleteTask->setEnabled(ui->tableForTasks->rowCount());
+    if(!ui->tableForTasks->rowCount())
     {
-        ui->pushButton_2->setEnabled(true);
-        ui->pushButton_4->setEnabled(true);
-    }
-    else
-    {
-        ui->pushButton_2->setEnabled(false);
-        ui->pushButton_3->setEnabled(false);
-        ui->pushButton_4->setEnabled(false);
+        ui->buttonStopTaskTimer->setEnabled(false);
     }
 }
 
 /* Выбор даты в календаре */
 void MainWindow::on_calendarWidget_clicked(const QDate &date)
 {
-    qDebug() << "Функция on_calendarWidget_clicked запустилась (модель) " << date.toString("dd.MM.yyyy");
-
     cmw ->stopTaskTimer();
-    ui  ->tableWidget->clearContents();
+    ui  ->tableForTasks->clearContents();
     cmw ->calendarDate = date;
     ui  ->plainTextEdit->clear();
     cmw ->setDay(1);
@@ -449,14 +343,12 @@ void MainWindow::on_calendarWidget_clicked(const QDate &date)
 
 void MainWindow::on_projectSettings_triggered()
 {
-    qDebug() << "Функция on_projectSettings_triggered запустилась (модель)";
     cmw->open_projSettings(true);
 }
 
 /* Выбор закладки проекта */
 void MainWindow::on_tabWidget_tabBarClicked(int index)
 {
-    qDebug() << "Функция on_tabWidget_tabBarClicked запустилась (модель) " << index;
     /** Если это не закладка откртыия проекта */
     if (ui->tabWidget->tabText(index) != "Выберите папку проекта двойным щелчком ...")
     {
@@ -466,38 +358,26 @@ void MainWindow::on_tabWidget_tabBarClicked(int index)
         QString dir = cmw->projList[index].toString();
         if (dir != "")
         {
-            qDebug() << "Название проекта " << dir;
             mainDir.setCurrent(*cmw->workDir);
             mainDir.cdUp();
             mainDir.cd(dir);
             cmw->workDir->clear();
             cmw->workDir = new QString(mainDir.path());
-            //cmw->setWorkDir(dir);
-            //cmw->init_window();
-
-            ui->tableWidget->clearContents();
-
+            ui->tableForTasks->clearContents();
             ui->plainTextEdit->clear();
-
             cmw->setTodayDateTime();
-
             ui->calendarWidget->setSelectedDate(cmw->todayDate);
-
             cmw->setDay(1);
         }
     }
 }
 
 /* Открытие проекта по двойному щелчку на закладке */
-void MainWindow::on_tabWidget_tabBarDoubleClicked(int index)
+void MainWindow::on_tabWidget_tabBarDoubleClicked(int)
 {
-    qDebug() << "Функция on_tabWidget_tabBarDoubleClicked запустилась (модель) " << *cmw->workDir;
-
     /** Перед котрытием нового проекта останавливаем таймер, если таковой был запущен */
     cmw->stopTaskTimer();
-
     tempWorkDir = *cmw->workDir;
-
     /** Если текущий рабочий каталог не является домашним, делаем текущим родительский каталог */
     if (*cmw->workDir != QDir::homePath())
     {
@@ -506,16 +386,11 @@ void MainWindow::on_tabWidget_tabBarDoubleClicked(int index)
         currDir.cdUp();
         *cmw->workDir = currDir.path();
     }
-
-
-
     /** Открываем диалоговое окно выбора каталога */
     QString dir = QFileDialog::getExistingDirectory(this, tr("Выберите каталог проекта или создайте новый ..."),
                                                     *cmw->workDir,
                                                     QFileDialog::ShowDirsOnly
                                                     | QFileDialog::DontResolveSymlinks);
-    /** Обрабатываем полученный адрес каталога, выделяя из него имя проекта  */
-    //QString projName = dir.mid(dir.lastIndexOf("/")+1, dir.length()-1);
 
     /** Присваиваем имя проекта переменной workDir */
     delete(cmw->workDir);
@@ -528,10 +403,7 @@ void MainWindow::on_tabWidget_tabBarDoubleClicked(int index)
 /* Открытие новой закладки с проектом */
 void MainWindow::open_project()
 {
-    qDebug() << "Функция open_project запустилась (модель) ";
-
     /** Исключаем ситуацию, при которой в окне выбора каталога была нажата кнопка "Отмена" */
-
     if (*cmw->workDir != "")
     {
         /** Активируем иконки панели задач. Они заблокированы до тех пор, пока не будет открыт хотябы 1 проект */
@@ -543,15 +415,13 @@ void MainWindow::open_project()
         ui->mainToolBar->actions()[7]->setEnabled(true);
 
         /** Активируем основные элементы окна. Они заблокированы до тех пор, пока не будет открыт хотябы 1 проект */
-        ui->tableWidget     ->setEnabled(true);
+        ui->tableForTasks   ->setEnabled(true);
         ui->calendarWidget  ->setEnabled(true);
         ui->plainTextEdit   ->setEnabled(true);
         ui->checkBoxDone    ->setEnabled(true);
 
         /** Открываем файл проекта для получения его наименования */
-        qDebug() << "ПЕРЕД ОТКРЫТИЕМ ПРОЕКТА";
         cmw->open_project();
-        qDebug() << "ПОСЛЕ ОТКРЫТИЕМ ПРОЕКТА";
         if (cmw->errorFlag){*cmw->workDir = tempWorkDir;return;}
 
         /** Подготавливаем информацию для открытия проекта */
@@ -566,25 +436,21 @@ void MainWindow::open_project()
         ui->tabWidget->insertTab(index+1, w, "Выберите папку проекта двойным щелчком ...");
 
         /** Очищаем таблицу задач и поле описания задач */
-        ui->tableWidget->clearContents();
+        ui->tableForTasks->clearContents();
         ui->plainTextEdit->clear();
 
         /** Загружаем данные по заданному в календаре дню проекта */
         cmw->setDay();
 
         /** Активируем кнопки управления задачами */
+        ui->buttonNewTask->setEnabled(true);
 
-        ui->pushButton->setEnabled(true);
-        if(ui->tableWidget->rowCount() > 0)
+        ui->buttonStartTaskTimer->setEnabled(ui->tableForTasks->rowCount());
+        ui->buttonDeleteTask->setEnabled(ui->tableForTasks->rowCount());
+
+        if(ui->tableForTasks->rowCount() > 0)
         {
-            ui->pushButton_2->setEnabled(true);
-            ui->pushButton_4->setEnabled(true);
-        }
-        else
-        {
-            ui->pushButton_2->setEnabled(false);
-            ui->pushButton_3->setEnabled(false);
-            ui->pushButton_4->setEnabled(false);
+            ui->buttonStopTaskTimer->setEnabled(false);
         }
 
         /** Активируем пункты меню */
@@ -606,7 +472,6 @@ void MainWindow::open_project()
 
 void MainWindow::setDayColor(QDate editedDate)
 {
-    //qDebug() << "Функция setDayColor() запустилась (модель) " << editedDate.toString("dd_MM_yyyy");
     QFont           charFont    ;
     charFont.setBold(true);
     charFont.setPixelSize(12);
@@ -619,7 +484,6 @@ void MainWindow::setDayColor(QDate editedDate)
 
 void MainWindow::setClearCalendar()
 {
-    qDebug() << "Функция setClearCalendar запустилась (модель)";
     QDate editedDate;
     QTextCharFormat charFormat;
     ui->calendarWidget->setDateTextFormat(editedDate, charFormat);
@@ -628,32 +492,24 @@ void MainWindow::setClearCalendar()
 /* Открытие окна создания нового звонка */
 void MainWindow::on_action_triggered()
 {
-    qDebug() << "Функция on_action_triggered запустилась (модель)";
-
     cmw->open_createCallDialog(true);
 }
 
 /* Открытие окна просмотра списка звонков для данного проекта */
 void MainWindow::on_action_2_triggered()
 {
-    qDebug() << "Функция on_action_triggered запустилась (модель)";
-
     cmw->open_viewCallDialog(true);
 }
 
 /* Открытие окна поиска по всем данным (общий поиск) */
 void MainWindow::on_action_3_triggered()
 {
-    qDebug() << "Функция on_action_3_triggered запустилась (модель)";
-
     cmw->open_dialogFind(true);
 }
 
 /* Обновление содержимого окна при переключении между месяцами и годами */
 void MainWindow::on_calendarWidget_currentPageChanged(int year, int month)
 {
-    qDebug() << "Функция on_calendarWidget_currentPageChanged запустилась (модель)";
-
     QDate currDate;
     currDate.setDate(year, month, ui->calendarWidget->selectedDate().day());
     ui->calendarWidget->setSelectedDate(currDate);
@@ -667,24 +523,22 @@ void MainWindow::on_calendarWidget_currentPageChanged(int year, int month)
 }
 
 /* Перенос задачи на новую дату */
-void MainWindow::set_nextDay(bool tr)
+void MainWindow::set_nextDay(bool)
 {
-    qDebug() << "Функция set_nextDay запустилась (модель)";
-    ui->menuBar         ->setEnabled(false);
-    ui->mainToolBar     ->setEnabled(false);
-    ui->plainTextEdit   ->setEnabled(false);
-    ui->checkBoxDone    ->setEnabled(false);
-    ui->pushButton      ->setEnabled(false);
-    ui->pushButton_2    ->setEnabled(false);
-    ui->pushButton_3    ->setEnabled(false);
-    ui->pushButton_4    ->setEnabled(false);
-    ui->tabWidget       ->setEnabled(false);
+    ui->menuBar                 ->setEnabled(false);
+    ui->mainToolBar             ->setEnabled(false);
+    ui->plainTextEdit           ->setEnabled(false);
+    ui->checkBoxDone            ->setEnabled(false);
+    ui->buttonNewTask           ->setEnabled(false);
+    ui->buttonStartTaskTimer    ->setEnabled(false);
+    ui->buttonStopTaskTimer     ->setEnabled(false);
+    ui->buttonDeleteTask        ->setEnabled(false);
+    ui->tabWidget               ->setEnabled(false);
 }
 
 /* Выбор пункта меню "Отчёты -> По времени" */
 void MainWindow::on_action_5_triggered()
 {
-    qDebug() << "Функция on_action_5_triggered запустилась (модель)";
     Dialog_timeReport *tr = new Dialog_timeReport;
     tr->ctr->workDir = cmw->workDir;
     tr->setWindowTitle("Отчёт по времени");
@@ -695,7 +549,6 @@ void MainWindow::on_action_5_triggered()
 /* Выбор пункта "По выполненным задачам" меню "Отчёты" */
 void MainWindow::on_action_6_triggered()
 {
-    qDebug() << "Функция MainWindow::on_action_6_triggered() запустилась (модель)";
     Dialog_reportTask *drt = new Dialog_reportTask;
     drt->crt.workDir = cmw->workDir;
     drt->setWindowTitle("Отчёт по выполненным заданиям за период");
@@ -705,16 +558,11 @@ void MainWindow::on_action_6_triggered()
 /* Кнопка закрытия закладки с проектом */
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
 {
-    qDebug() << "Функция MainWindow::on_tabWidget_tabCloseRequested(int index) запустилась (модель)" ;
     if (ui->tabWidget->tabText(index) != "Выберите папку проекта двойным щелчком ...")
     {
-        qDebug() << "В условии";
-
         /** Открываем проект на случай, если выбрана не активная закладка */
         on_tabWidget_tabBarClicked(index);
-
-
-        ui->tableWidget->setRowCount(0);
+        ui->tableForTasks->setRowCount(0);
         ui->plainTextEdit->clear();
         setClearCalendar();
 
@@ -722,16 +570,14 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
         qDebug() << ui->tabWidget->count();
         if (ui->tabWidget->count() == 1)
         {
-            ui->pushButton  ->setEnabled(false);
-            ui->pushButton_2->setEnabled(false);
-            ui->pushButton_3->setEnabled(false);
-            ui->pushButton_4->setEnabled(false);
-
+            ui->buttonNewTask       ->setEnabled(false);
+            ui->buttonStartTaskTimer->setEnabled(false);
+            ui->buttonStopTaskTimer ->setEnabled(false);
+            ui->buttonDeleteTask    ->setEnabled(false);
             /** Блокируем календарь, таблицу и поле описания задачи */
-            ui->tableWidget     ->setEnabled(false);
+            ui->tableForTasks   ->setEnabled(false);
             ui->plainTextEdit   ->setEnabled(false);
             ui->checkBoxDone    ->setEnabled(false);
-
             /** Блокируем иконки панели инструментов */
             ui->mainToolBar->actions()[1]->setEnabled(false);
             ui->mainToolBar->actions()[2]->setEnabled(false);
@@ -768,113 +614,71 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
 /* Установка флага выполненной задачи */
 void MainWindow::on_checkBoxDone_clicked()
 {
-    qDebug() << "Функция MainWindow::on_checkBoxDone_clicked() запустилась";
-
+    QColor indColor;
     if (ui->checkBoxDone->isChecked())
     {
         cmw->tList.completeFlag[cmw->currIndexNum] = "1";
-        QColor indColor("lightgreen");
-        //ui->tableWidget->item(cmw->currTaskNum,0)->setBackgroundColor(indColor);
-        ui->tableWidget->item(cmw->currTaskNum,1)->setBackgroundColor(indColor);
-        ui->tableWidget->item(cmw->currTaskNum,2)->setBackgroundColor(indColor);
+        indColor.setNamedColor("lightgreen");
     }
     else
     {
         cmw->tList.completeFlag[cmw->currIndexNum] = "0";
-        QColor indColor("lightyellow");
-        //ui->tableWidget->item(cmw->currTaskNum,0)->setBackgroundColor(indColor);
-        ui->tableWidget->item(cmw->currTaskNum,1)->setBackgroundColor(indColor);
-        ui->tableWidget->item(cmw->currTaskNum,2)->setBackgroundColor(indColor);
+        indColor.setNamedColor("lightyellow");
     }
+    ui->tableForTasks->item(cmw->currTaskNum,1)->setBackgroundColor(indColor);
+    ui->tableForTasks->item(cmw->currTaskNum,2)->setBackgroundColor(indColor);
 }
 
 /* Открытие окна создания проекта */
 void MainWindow::on_action_8_triggered()
 {
-    qDebug() << "Функция MainWindow::on_action_8_triggered() запустилась";
     cmw->create_project();
 }
 
 /* Открытие окна рассчёта текущего проекта */
 void MainWindow::on_action_7_triggered()
 {
-    qDebug() << "Функция MainWindow::on_action_7_triggered() запустилась";
-    dialog_claculateProj *dcp = new dialog_claculateProj;\
+    dialog_claculateProj *dcp = new dialog_claculateProj;
     dcp->initWindow();
 }
 
 /* Обработка изменения шрифта в описании задачи */
-void MainWindow::on_comboBoxFontList_currentIndexChanged(const QString &arg1)
+void MainWindow::on_comboBoxFontList_currentIndexChanged(const QString &)
 {
-    qDebug() << "Функция MainWindow::on_comboBoxFontList_currentIndexChanged(const QString &arg1) запустилась";
     checkCurrentFontParam();
 }
 
 /* Обработка изменения размера шрифта */
 void MainWindow::on_lineEditFontSize_editingFinished()
 {
-    qDebug() << "Функция MainWindow::on_lineEditFontSize_editingFinished() запустилась";
     checkCurrentFontParam();
 }
 
 /* Обработка кнопки жирного текста */
 void MainWindow::on_toolButton_clicked()
 {
-    qDebug() << "Функция MainWindow::on_toolButton_clicked() запустилась";
-    if (ui->toolButton->isChecked() == true)
-    {
-        ui->toolButton->setChecked(true);
-    }
-    else
-    {
-        ui->toolButton->setChecked(false);
-    }
+    ui->toolButton->setChecked(ui->toolButton->isChecked());
     checkCurrentFontParam();
 }
 
 /* Обработка кнопки наклонного текста */
 void MainWindow::on_toolButtonNaklon_clicked()
 {
-    qDebug() << "Функция MainWindow::on_toolButtonNaklon_clicked() запустилась";
-
-    if (ui->toolButtonNaklon->isChecked() == true)
-    {
-        ui->toolButtonNaklon->setChecked(true);
-    }
-    else
-    {
-        ui->toolButtonNaklon->setChecked(false);
-    }
+    ui->toolButtonNaklon->setChecked(ui->toolButtonNaklon->isChecked());
     checkCurrentFontParam();
 }
 
 /* Обработка кнопки подчеркнутого текста */
 void MainWindow::on_toolButtonPodcherk_clicked()
 {
-    qDebug() << "Функция MainWindow::on_toolButtonNaklon_clicked() запустилась";
-    if (ui->toolButtonPodcherk->isChecked() == true)
-    {
-        ui->toolButtonPodcherk->setChecked(true);
-    }
-    else
-    {
-        ui->toolButtonPodcherk->setChecked(false);
-    }
+    ui->toolButtonPodcherk->setChecked(ui->toolButtonPodcherk->isChecked());
     checkCurrentFontParam();
 }
 
 /* Обработка кнопки зачеркнутого текста */
 void MainWindow::on_toolButtonZacherk_clicked()
 {
-    qDebug() << "Функция MainWindow::on_toolButtonNaklon_clicked() запустилась";
-    if (ui->toolButtonZacherk->isChecked() == true)
-    {
-        ui->toolButtonZacherk->setChecked(true);
-    }
-    else
-    {
-        ui->toolButtonZacherk->setChecked(false);
-    }
+    ui->toolButtonZacherk->setChecked(ui->toolButtonZacherk->isChecked());
     checkCurrentFontParam();
 }
 
@@ -882,8 +686,6 @@ void MainWindow::on_toolButtonZacherk_clicked()
 /* Обновление параметров шрифта в зависимости от панели */
 void MainWindow::checkCurrentFontParam()
 {
-    qDebug() << "Функция MainWindow::checkCurrentFontParam() запустилась";
-
     QFont newFont;
     QTextCharFormat textFormat;
 
@@ -892,98 +694,33 @@ void MainWindow::checkCurrentFontParam()
     /** Задаём размер шрифта */
     newFont.setPixelSize(ui->lineEditFontSize->text().toInt());
     /** Задаём выделение жирным */
-    if (ui->toolButton->isChecked() == true)
-    {
-        qDebug() << "Кнопка жирности нажата";
-        newFont.setBold(true);
-    }
-    else
-    {
-        newFont.setBold(false);
-    }
+    newFont.setBold(ui->toolButton->isChecked());
     /** Задаём выделение наклоном */
-    if (ui->toolButtonNaklon->isChecked() == true)
-    {
-        newFont.setItalic(true);
-    }
-    else
-    {
-        newFont.setItalic(false);
-    }
+    newFont.setItalic(ui->toolButtonNaklon->isChecked());
     /** Задаём выделение подчёркиванием */
-    if (ui->toolButtonPodcherk->isChecked() == true)
-    {
-        newFont.setUnderline(true);
-    }
-    else
-    {
-        newFont.setUnderline(false);
-    }
+    newFont.setUnderline(ui->toolButtonPodcherk->isChecked());
     /** Задаём выделение зачёркиванием */
-    if (ui->toolButtonZacherk->isChecked() == true)
-    {
-        newFont.setStrikeOut(true);
-    }
-    else
-    {
-        newFont.setStrikeOut(false);
-    }
+    newFont.setStrikeOut(ui->toolButtonZacherk->isChecked());
     textFormat.setFont(newFont);
     ui->plainTextEdit->mergeCurrentCharFormat(textFormat);
 }
 
-
-
 /* Обработка события изменения позиции курсора в поле описания задачи */
 void MainWindow::on_plainTextEdit_cursorPositionChanged()
 {
-    qDebug() << "Функция MainWindow::on_plainTextEdit_cursorPositionChanged() запустилась ";
-
     /** Определяем, выделен ли текст под курсором жирным */
-    if (ui->plainTextEdit->textCursor().charFormat().font().bold())
-    {
-        ui->toolButton->setChecked(true);
-    }
-    else
-    {
-        ui->toolButton->setChecked(false);
-    }
-
+    ui->toolButton->setChecked(ui->plainTextEdit->textCursor().charFormat().font().bold());
     /** Определяем, выделен ли текст под курсором наклоном */
-    if (ui->plainTextEdit->textCursor().charFormat().font().italic())
-    {
-        ui->toolButtonNaklon->setChecked(true);
-    }
-    else
-    {
-        ui->toolButtonNaklon->setChecked(false);
-    }
-
+     ui->toolButtonNaklon->setChecked(ui->plainTextEdit->textCursor().charFormat().font().italic());
     /** Определяем, выделен ли текст под курсором подчёркиванием */
-    if (ui->plainTextEdit->textCursor().charFormat().font().underline())
-    {
-        ui->toolButtonPodcherk->setChecked(true);
-    }
-    else
-    {
-        ui->toolButtonPodcherk->setChecked(false);
-    }
-
+     ui->toolButtonPodcherk->setChecked(ui->plainTextEdit->textCursor().charFormat().font().underline());
     /** Определяем, выделен ли текст под курсором зачеркиванием */
-    if (ui->plainTextEdit->textCursor().charFormat().font().strikeOut())
-    {
-        ui->toolButtonZacherk->setChecked(true);
-    }
-    else
-    {
-        ui->toolButtonZacherk->setChecked(false);
-    }
+     ui->toolButtonZacherk->setChecked(ui->plainTextEdit->textCursor().charFormat().font().strikeOut());
 }
 
 /* Обработка нажатия кнопки выравнивания по левому краю */
 void MainWindow::on_toolButtonLeft_clicked()
 {
-    qDebug() << "Функция MainWindow::on_toolButtonLeft_clicked() запустилась ";
     QTextOption op(Qt::AlignLeft);
     ui->plainTextEdit->document()->setDefaultTextOption(op);
 }
@@ -991,7 +728,6 @@ void MainWindow::on_toolButtonLeft_clicked()
 /* Обработка нажатия кнопки выравнивания по центру */
 void MainWindow::on_toolButtonCenter_clicked()
 {
-    qDebug() << "Функция MainWindow::on_toolButtonCenter_clicked() запустилась ";
     QTextOption op(Qt::AlignCenter);
     ui->plainTextEdit->document()->setDefaultTextOption(op);
 }
@@ -999,7 +735,6 @@ void MainWindow::on_toolButtonCenter_clicked()
 /* Обработка нажатия кнопки выравнивания по правому краю */
 void MainWindow::on_toolButtonRight_clicked()
 {
-    qDebug() << "Функция MainWindow::on_toolButtonRight_clicked() запустилась ";
     QTextOption op(Qt::AlignRight);
     ui->plainTextEdit->document()->setDefaultTextOption(op);
 }

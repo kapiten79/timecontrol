@@ -3,7 +3,7 @@
 controller_main::controller_main()
 {
     /** Проверяем, создавалась ли ранее база данных для этого экземпляра программы. */
-    if (!sdb.contains("timeControl.db"))
+    if (!sdb.contains())
     {
         sdb = QSqlDatabase::addDatabase("QSQLITE");
         sdb.setDatabaseName("timeControl.db");
@@ -36,20 +36,30 @@ controller_main::controller_main()
                     "hour_price     int, "
                     "directory      text )";
              result = sdb.exec(query);
+
+             query = "CREATE TABLE settings   (id_set int PRIMARY KEY, "
+                     "owner             text, "
+                     "version           text, "
+                     "serial            text, "
+                     "def_hour_price    int, "
+                     "directory         text )";
+              result = sdb.exec(query);
              qDebug() << "Результат создания базы данных " << result.lastError().text();
         }
         else
         {
             qDebug() << "База данных уже существует. Загружаем информацию о проктах и настройках программы...";
         }
-        sdb.close();
+
     }
 }
 
-/* Реализация запроса к SQLite */
-void controller_main::db_select(QString query)
+/** Получение нового id записи в таблице */
+QString controller_main::getLastIndex(QString table)
 {
-
+    result = sdb.exec("SELECT count() FROM "+table);
+    result.next();
+    return result.value(0).toString();
 }
 
 /********************** ОБРАБОТКА ФАЙЛОВ РАБОЧЕГИ ДНЯ ********************************/
@@ -377,6 +387,8 @@ void controller_main::licenseControl()
 //    select();
 
 }
+
+
 
 
 

@@ -18,9 +18,7 @@ void controller_mainWindow::setTodayDateTime()
 /* Инициализация параметров окна */
 void controller_mainWindow::init_window(int flag)
 {
-    qDebug() << "Функция controller_mainWindow::init_window запустилась (контроллер) " << flag << " Рабочий каталог " << *workDir << " Текущая дата " << calendarDate.toString("dd.MM.yyyy");
-
-    if (flag == 1)
+    if (flag)
     {
         readFromFile    ()      ;
         currTaskNum = 0;
@@ -28,21 +26,9 @@ void controller_mainWindow::init_window(int flag)
         indexNumList.clear();
 
         /** Чистим список задач за весь проект перед обновлением */
-        tList.taskDate      .clear();
-        tList.taskIndex     .clear();
-        tList.taskName      .clear();
-        tList.taskTime      .clear();
-        tList.taskPrice     .clear();
-        tList.taskFullText  .clear();
-        tList.taskHour      .clear();
-        tList.taskMinute    .clear();
-        tList.taskSecond    .clear();
-        tList.taskRuble     .clear();
-        tList.taskKop       .clear();
-        tList.completeFlag  .clear();
+        tList = {};
 
         /** Добавляем в структуру taskList задачи за весь проект */
-        qDebug() << "Размер массива " << j_dataArray.count();
         for (int i=0; i<j_dataArray.count(); i++)
         {
             tList.taskDate        << j_dataArray[i].toArray()[0].toString();
@@ -58,20 +44,15 @@ void controller_mainWindow::init_window(int flag)
                 tList.taskHour       << 0;
                 tList.taskMinute     << 0;
                 tList.taskSecond     << 0;
-
-                tList.taskRuble      << 0;
-                tList.taskKop        << 0;
             }
             else
             {
                 tList.taskSecond << j_dataArray[i].toArray()[3].toString().mid(6,2).toInt();
                 tList.taskMinute << j_dataArray[i].toArray()[3].toString().mid(3,2).toInt();
                 tList.taskHour   << j_dataArray[i].toArray()[3].toString().mid(0,2).toInt();
-
-                tList.taskRuble      << 0;
-                tList.taskKop        << 0;
             }
-
+            tList.taskRuble      << 0;
+            tList.taskKop        << 0;
 
             /** Обработка данных о задачах за текущий день */
             if (calendarDate.toString("dd_MM_yyyy") == j_dataArray[i].toArray()[0].toString())
@@ -79,9 +60,6 @@ void controller_mainWindow::init_window(int flag)
                 taskNumList     << currTaskNum;
                 indexNumList    << j_dataArray[i].toArray()[1].toString();
                 currIndexNum = i;
-                qDebug() << "Количество элементов массива " << tList.taskName.count();
-                qDebug() << "Индекс " << currIndexNum;
-                qDebug() << "Для очередной загружаемой задачи " << tList.taskName[currIndexNum] << " Номер индекса " << currIndexNum << " Номер задачи на экране " << currTaskNum;
                 currTaskNum += 1;
             }
         }
@@ -555,7 +533,7 @@ void controller_mainWindow::saveDay()
 }
 
 /* Открытваем окно настроек проекта */
-void controller_mainWindow::open_projSettings(bool tr)
+void controller_mainWindow::open_projSettings(bool )
 {
     qDebug() << "Функция controller_mainWindow::open_projSettings(bool tr) запустилась (контроллер) " ;
     dps->cps.pList      = pList     ;
@@ -576,7 +554,7 @@ void controller_mainWindow::setProjParams()
 }
 
 /* Подготовка параметров и открытие окна ввода звонка */
-void controller_mainWindow::open_createCallDialog(bool tr)
+void controller_mainWindow::open_createCallDialog(bool )
 {
     qDebug() << "Функция open_createCallDialog запустилась (контроллер) " << *workDir;
     Dialog_createCall *dcc = new Dialog_createCall;
@@ -586,7 +564,7 @@ void controller_mainWindow::open_createCallDialog(bool tr)
 }
 
 /* Подготовка параметров и открытие окна просмотра звонков */
-void controller_mainWindow::open_viewCallDialog(bool tr)
+void controller_mainWindow::open_viewCallDialog(bool )
 {
     qDebug() << "Функция open_viewCallDialog запустилась (контроллер) " << workDir ;
     Dialog_viewCallList *dvcl   = new Dialog_viewCallList   ;
@@ -599,7 +577,7 @@ void controller_mainWindow::open_viewCallDialog(bool tr)
 }
 
 /* Подготовка параметров и открытие окна поиска */
-void controller_mainWindow::open_dialogFind(bool tr)
+void controller_mainWindow::open_dialogFind(bool )
 {
     qDebug() << "Функция open_dialogFind запустилась (контроллер) ";
     Dialog_find *df = new Dialog_find;
@@ -618,6 +596,7 @@ void controller_mainWindow::open_project()
         workDir = dps->cps.workDir;
         dps->caller = "";
     }
+
     readProjFromFile();
     disconnect(dps, SIGNAL(s_setProjParams()), model, SLOT(open_project()));
 
@@ -639,6 +618,12 @@ void controller_mainWindow::open_project()
     {
         errorFlag = true;
     }
+
+    /** Заполняем историю открытых проектов */
+    QString nextIndex = getLastIndex("dict_project");
+    sdb.open();
+    sdb.exec("INSERT INTO dict_project VALUES "+nextIndex+", "+pList->projNameSt+", "+pList->projDescriptionSt+", "+pList->projPriceSt+", "+dps->cps.workDir);
+    qDebug() << "Запрос на добавление проекта в историю " << "INSERT INTO dict_project VALUES "+nextIndex+", "+pList->projNameSt+", "+pList->projDescriptionSt+", "+pList->projPriceSt+", "+dps->cps.workDir;
 
 }
 
@@ -675,7 +660,7 @@ void controller_mainWindow::move_task()
 }
 
 /* Сохранение всех данных */
-void controller_mainWindow::save_project(bool tr)
+void controller_mainWindow::save_project(bool )
 {
     qDebug() << "Функция save_project запустилась (контроллер)";
     saveDay();

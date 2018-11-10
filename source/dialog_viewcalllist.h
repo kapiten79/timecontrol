@@ -29,8 +29,8 @@ public slots:
     void setClearCalendar();
 
 private slots:
-    void on_tableWidget_cellClicked(int row, int column);
-    void on_calendarWidget_clicked(const QDate &date);
+    void on_tableWidget_cellClicked(int row, int);
+    void on_calendarWidget_clicked(const QDate &);
 };
 
 #endif // DIALOG_VIEWCALLLIST_H

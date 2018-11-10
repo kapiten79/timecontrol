@@ -144,7 +144,7 @@ void Dialog_find::on_checkBox_2_clicked(bool checked)
 }
 
 /* Вывод информации и выбранном проекте или звонке */
-void Dialog_find::on_tableWidget_cellClicked(int row, int column)
+void Dialog_find::on_tableWidget_cellClicked(int row, int )
 {
     qDebug() << "Функция on_tableWidget_cellClicked запустилась";
     ui->plainTextEdit->setPlainText(cf.fList.description[row].toString());

@@ -9,7 +9,6 @@ controller_reporttask::controller_reporttask()
 void controller_reporttask::get_projList()
 {
     qDebug() << "Функция controller_reporttask::get_projList() запутилась (контроллер) " << *workDir;
-    qsl;
     QDir qd(*workDir);
     qd.cd("..");
 
@@ -64,7 +63,7 @@ void controller_reporttask::processReport()
 
     /** Объясляем переменные для очередного проекта */
     QDate   nextTaskDate                        ;
-    QDate   maximumTaskDate = QDate(1,1,1979)   ;
+    //QDate   maximumTaskDate = QDate(1,1,1979)   ;
     int     taskHour        = 0                 ;
     int     taskMinut       = 0                 ;
     int     taskSecs        = 0                 ;
@@ -79,13 +78,13 @@ void controller_reporttask::processReport()
     int     taskKop         = 0                 ;
     int     taskRub         = 0                 ;
 
-    int     taskCount       = 0                 ;
+    //int     taskCount       = 0                 ;
 
-    int     indexRub, indexKop;
+    int     indexRub/*, indexKop*/;
 
     QString summSt;
 
-    double nacenka;
+   // double nacenka;
 
     /** Перебираем задачи проекта */
     for (int j = 0; j<j_dataArray.count(); j++)
@@ -143,7 +142,7 @@ void controller_reporttask::processReport()
             /** Получаем потраченные деньги из файла */
             summSt      = j_dataArray[j].toArray()[4].toString();
             indexRub    = summSt.indexOf("руб");
-            indexKop    = summSt.indexOf("коп");
+            //indexKop    = summSt.indexOf("коп");
 
             /** Суммируем потраченные деньги */
             taskRub     = summSt.mid(0,indexRub).toInt();

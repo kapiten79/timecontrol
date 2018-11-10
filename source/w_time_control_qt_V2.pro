@@ -15,6 +15,15 @@ win32 {
     QT += axcontainer
 }
 
+CONFIG(debug, debug|release) {
+    DESTDIR = build/debug
+} else: DESTDIR = build/release
+
+OBJECTS_DIR = $$DESTDIR/.obj
+MOC_DIR = $$DESTDIR/.moc
+RCC_DIR = $$DESTDIR/.qrc
+UI_DIR = $$DESTDIR/.ui
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = TimeControl_v2_00_001

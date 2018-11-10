@@ -65,7 +65,7 @@ void Dialog_createCall::on_buttonBox_accepted()
 }
 
 /* Назначение каталога для сохранения в зависимости от выбранного проекта */
-void Dialog_createCall::on_comboBox_activated(int index)
+void Dialog_createCall::on_comboBox_activated(int )
 {
     qDebug() << "Функция on_comboBox_activated запустилась ";
     //ccc.workDir = "project/"+ccc.projDirList[index].toString();

@@ -25,7 +25,7 @@ private slots:
     void on_checkBox_clicked    (bool checked)  ;
     void on_buttonBox_accepted  ()              ;
 
-    void on_comboBox_activated(int index);
+    void on_comboBox_activated(int);
 
 private:
     Ui::Dialog_createCall *ui;

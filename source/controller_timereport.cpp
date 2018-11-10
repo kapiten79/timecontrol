@@ -9,7 +9,6 @@ controller_timereport::controller_timereport()
 void controller_timereport::get_projList()
 {
     qDebug() << "Функция get_projList запутилась (контроллер) " << *workDir;
-    qsl;
     QDir qd(*workDir);
     qd.cd("..");
     qsl = qd.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
@@ -104,7 +103,7 @@ void controller_timereport::processReport()
 
         int     taskCount       = 0                 ;
 
-        int     indexRub, indexKop;
+        int     indexRub/*, indexKop*/;
 
         QString summSt;
 
@@ -150,7 +149,7 @@ void controller_timereport::processReport()
 
                 summSt      = j_dataArray[j].toArray()[4].toString();
                 indexRub    = summSt.indexOf("руб");
-                indexKop    = summSt.indexOf("коп");
+                //indexKop    = summSt.indexOf("коп");
 
                 /** Суммируем потраченные деньги */
                 projRub     += summSt.mid(0,indexRub).toInt();

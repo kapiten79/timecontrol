@@ -29,7 +29,7 @@ private slots:
     void on_pushButton_clicked();
     void on_checkBox_clicked(bool checked);
     void on_checkBox_2_clicked(bool checked);
-    void on_tableWidget_cellClicked(int row, int column);
+    void on_tableWidget_cellClicked(int row, int);
     void on_checkBox_5_clicked(bool checked);
     void on_lineEdit_textChanged(const QString &arg1);
 };

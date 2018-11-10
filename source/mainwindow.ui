@@ -34,14 +34,13 @@
        <attribute name="title">
         <string>Выберите папку проекта двойным щелчком ...</string>
        </attribute>
-       <zorder></zorder>
       </widget>
      </widget>
     </item>
     <item row="1" column="0">
      <layout class="QGridLayout" name="gridLayout">
       <item row="5" column="5">
-       <widget class="QLabel" name="label_5">
+       <widget class="QLabel" name="labelTotalPrice">
         <property name="font">
          <font>
           <weight>75</weight>
@@ -68,7 +67,7 @@
        </widget>
       </item>
       <item row="4" column="5">
-       <widget class="QLabel" name="label_4">
+       <widget class="QLabel" name="labelTotalTime">
         <property name="font">
          <font>
           <weight>75</weight>
@@ -95,7 +94,7 @@
        </widget>
       </item>
       <item row="4" column="7">
-       <widget class="QLabel" name="label_8">
+       <widget class="QLabel" name="labelDayTime">
         <property name="font">
          <font>
           <weight>75</weight>
@@ -108,7 +107,7 @@
        </widget>
       </item>
       <item row="5" column="7">
-       <widget class="QLabel" name="label_9">
+       <widget class="QLabel" name="labelDayPrice">
         <property name="font">
          <font>
           <weight>75</weight>
@@ -148,7 +147,7 @@
        </widget>
       </item>
       <item row="4" column="0" rowspan="2">
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="buttonNewTask">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -174,7 +173,7 @@
        </widget>
       </item>
       <item row="0" column="0" rowspan="4" colspan="4">
-       <widget class="QTableWidget" name="tableWidget">
+       <widget class="QTableWidget" name="tableForTasks">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -202,7 +201,7 @@
        </widget>
       </item>
       <item row="4" column="3" rowspan="2">
-       <widget class="QPushButton" name="pushButton_4">
+       <widget class="QPushButton" name="buttonDeleteTask">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -228,7 +227,7 @@
        </widget>
       </item>
       <item row="4" column="2" rowspan="2">
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="buttonStopTaskTimer">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -254,7 +253,7 @@
        </widget>
       </item>
       <item row="4" column="1" rowspan="2">
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="buttonStartTaskTimer">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -409,7 +408,6 @@
    </layout>
    <zorder>tabWidget</zorder>
    <zorder></zorder>
-   <zorder>toolButtonPodcherk</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -417,7 +415,7 @@
      <x>0</x>
      <y>0</y>
      <width>1207</width>
-     <height>21</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
